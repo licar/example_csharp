@@ -54,7 +54,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Modes\LivingField.cs" />
+    <Compile Include="Modes\Cell\HunterField.cs" />
+    <Compile Include="Modes\Cell\Interface\ICell.cs" />
+    <Compile Include="Modes\Cell\RubbitsField.cs" />
     <Compile Include="Services\ModelingService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -73,8 +75,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Modes\Cell.cs" />
-    <Compile Include="Modes\Field.cs" />
+    <Compile Include="Modes\Cell\Cell.cs" />
+    <Compile Include="Modes\Cell\Field.cs" />
     <Compile Include="Modes\Greass.cs" />
     <Compile Include="Modes\Island.cs" />
     <Compile Include="Modes\Nature.cs" />

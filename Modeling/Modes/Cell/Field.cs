@@ -3,8 +3,8 @@ using Modeling.Common.Enums;
 
 namespace Modeling.Modes
 {
-	public class Field : Cell
-	{
+	public abstract class Field : Cell
+    {
 		public Nature Sun { get; set; } = new Nature();
 		public Nature Rain { get; set; } = new Nature();
 		public Greass Grass { get; } = new Greass();
