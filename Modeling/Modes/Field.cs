@@ -1,26 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Modeling.Common.Enums;
 
 namespace Modeling.Modes
 {
 	public class Field : Cell
 	{
-		public Nature Sun { get; set; }
-		public Nature Rain { get; set; }
-		public Greass Grass { get; set; }
+		public Nature Sun { get; set; } = new Nature();
+		public Nature Rain { get; set; } = new Nature();
+		public Greass Grass { get; } = new Greass();
 
-		public Field() : base(Locality.Field)
-		{
-			Sun.NextBeat();
-			Rain.NextBeat();
-		}
+		protected Field() : base(Locality.Field){}
 
 		public override void NextBeat()
 		{
-			Sun.NextBeat();
-			Rain.NextBeat();
+			Sun.RefreshState();
+			Rain.RefreshState();
+			RefreshGrass();
+		}
 
+		private void RefreshGrass()
+		{
 			if (neighboads.FirstOrDefault(n => n.Locality == Locality.River) != null)
 			{
 				MapGrassWithoutRiver();

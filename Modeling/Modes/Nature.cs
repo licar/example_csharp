@@ -10,10 +10,10 @@ namespace Modeling.Modes
 
 		public Nature()
 		{
-			NextBeat();
+			RefreshState();
 		}
 
-		public void NextBeat()
+		public void RefreshState()
 		{
 			NatureState =  (NatureState)random.Next(0, 4);
 		}

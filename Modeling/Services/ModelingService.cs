@@ -11,11 +11,12 @@ namespace Modeling.Services
     class ModelingService
     {
         Command commad = new Command();
-        Islend island;
+        Island island;
 
         ModelingService(int height, int widht)
         {
-            island = new Islend(height, widht);
+            island = new Island(height, widht);
+	        commad.AddState(island);
         }
 
         public void NextBeat()
@@ -23,10 +24,10 @@ namespace Modeling.Services
             island.NextBeat();
         }
 
-        public void Render(int state)
-        {
-            return commad.GetState(state);
-        }
+        //public void Render(int state)
+        //{
+        //    return commad.GetState(state);
+        //}
 
         public void Render()
         {

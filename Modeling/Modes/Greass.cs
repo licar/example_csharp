@@ -2,7 +2,7 @@
 {
 	public class Greass
 	{
-		public int Juiciness { get; private set; } = 0;
+		public int Juiciness { get; set; } = 0;
 
 		public void Rise()
 		{

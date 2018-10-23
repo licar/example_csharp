@@ -6,14 +6,14 @@ namespace Modeling.Business
 {
     public class Command
     {
-        public IList<Islend> states = new List<Islend>();
+        public IList<Island> states = new List<Island>();
 
-        public void SetState(Islend state)
+        public void AddState(Island state)
         {
             states.Add(state);
         }
 
-        public Islend GetState(int i)
+        public Island GetState(int i)
         {
             if (i < 0 || i > states.Count - 1)
             {
@@ -22,5 +22,10 @@ namespace Modeling.Business
 
             return states[i];
         }
+
+	    public int GetIndex(Island island)
+	    {
+		    return states.IndexOf(island);
+	    }
 	}
 }
