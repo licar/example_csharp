@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using Modeling.Common.Enums;
+﻿using Modeling.Common.Enums;
+using System.Collections.Generic;
 
 namespace Modeling.Modes
 {
-	public class Cell : ICell
+	public class FieldCell : ICell
 	{
         public Locality Locality { get;}
 
-        protected IList<Cell> neighboads;
+        protected IList<FieldCell> neighboads;
 
-        public Cell(Locality locality)
+        public FieldCell(Locality locality)
         {
             Locality = locality;
-            neighboads = null;
+            //neighboads = null;
         }
 
         public virtual void NextBeat(){}
@@ -20,5 +20,7 @@ namespace Modeling.Modes
         public virtual void AddRubbit(){}
 
         public virtual void Refresh() {}
+
+        public virtual void AddHunter(){}
     }
 }

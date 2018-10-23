@@ -59,7 +59,7 @@ namespace Modeling.Modes
             ++tempRubbits;
         }
 
-        public override void RefreshRubbits()
+        public override void Refresh()
         {
             //check alive for grass loginc
             tempRubbits = Grass.Juiciness >= tempRubbits ? tempRubbits : tempRubbits - Grass.Juiciness;
