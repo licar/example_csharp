@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Modeling.Common.Enums;
+using System.Collections.Generic;
 
 namespace Modeling.Modes
 {
@@ -14,5 +15,6 @@ namespace Modeling.Modes
         int GetHunters();
         IList<ICell> GetNeighboads();
         void SetNeighboads(IList<ICell> neighbords);
+        Locality GetLocality();
     }
 }

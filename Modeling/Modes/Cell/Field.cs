@@ -20,7 +20,7 @@ namespace Modeling.Modes
 
 		private void RefreshGrass()
 		{
-			if (neighboads.FirstOrDefault(n => n.Locality == Locality.River) != null)
+			if (neighboads.FirstOrDefault(n => n.GetLocality() == Locality.River) != null)
 			{
 				MapGrassWithoutRiver();
 			}

@@ -5,13 +5,13 @@ namespace Modeling.Modes
 {
 	public class FieldCell : ICell
 	{
-        public Locality Locality { get;}
+        private Locality locality;
 
         protected IList<ICell> neighboads;
 
         public FieldCell(Locality locality)
         {
-            Locality = locality;
+            this.locality = locality;
             //neighboads = null;
         }
 
@@ -48,6 +48,11 @@ namespace Modeling.Modes
         public void SetNeighboads(IList<ICell> neighbords)
         {
             this.neighboads = neighboads;
+        }
+
+        public Locality GetLocality()
+        {
+            return locality;
         }
     }
 }
