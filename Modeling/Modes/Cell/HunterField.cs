@@ -6,12 +6,12 @@ namespace Modeling.Modes.Cell
     public class HunterField : RubbitsField
     {
         private const int MAX_HUNTERS_AMOUNT = 3;
-        public int HuntersAmount { get; set; }
+        protected int huntersAmount;
         private int tempHuntersAmount = 0;
 
         public HunterField() : base()
         {
-          HuntersAmount = random.Next(0, MAX_HUNTERS_AMOUNT);
+          huntersAmount = random.Next(0, MAX_HUNTERS_AMOUNT);
         }
 
         public override void NextBeat()
@@ -30,16 +30,16 @@ namespace Modeling.Modes.Cell
 
         private void Hunt()
         {
-            var rubbishLeft = RubbitsAmount - HuntersAmount;
+            var rubbishLeft = rubbitsAmount - huntersAmount;
             if (rubbishLeft >= 0)
             {
-                RubbitsAmount = rubbishLeft;
+                rubbitsAmount = rubbishLeft;
                 return;
             }
 
-            HuntersAmount = 0;
+            huntersAmount = 0;
 
-            var migrateHunters = Math.Abs(HuntersAmount - RubbitsAmount);
+            var migrateHunters = Math.Abs(huntersAmount - rubbitsAmount);
             MigrateHunters(migrateHunters);
         }
 
@@ -57,11 +57,16 @@ namespace Modeling.Modes.Cell
             base.Refresh();
 
             //check hunters for max amount
-            var sum = HuntersAmount + tempHuntersAmount;
+            var sum = huntersAmount + tempHuntersAmount;
             var sumHunters = sum <= MAX_HUNTERS_AMOUNT ? sum : MAX_HUNTERS_AMOUNT;
-            HuntersAmount = sumHunters;
+            huntersAmount = sumHunters;
 
-            tempHuntersAmount = HuntersAmount + tempHuntersAmount - sumHunters;
+            tempHuntersAmount = huntersAmount + tempHuntersAmount - sumHunters;
         }
+
+        public override int GetHunters()
+        {
+            return huntersAmount;
+        } 
     }
 }

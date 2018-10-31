@@ -76,7 +76,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Modes\Cell\Cell.cs" />
+    <Compile Include="Modes\Cell\FieldCell.cs" />
     <Compile Include="Modes\Cell\Field.cs" />
     <Compile Include="Modes\Greass.cs" />
     <Compile Include="Modes\Island.cs" />

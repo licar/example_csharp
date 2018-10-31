@@ -7,11 +7,11 @@ namespace Modeling.Modes
 {
 	public class Island
 	{
-		public Cell[,] Cells { get; }
+		public ICell[,] Cells { get; }
         
 		public Island(int height, int widht)
 		{
-            Cells = new Cell[height, widht];
+            Cells = new FieldCell[height, widht];
             GenerateIslend();
             FillNeighbods();
         }
@@ -29,7 +29,7 @@ namespace Modeling.Modes
 
         private void GenerateIslend()
         {
-            var cells = new Cell[Cells.GetLength(0), Cells.GetLength(1)];
+            var cells = new FieldCell[Cells.GetLength(0), Cells.GetLength(1)];
             for (int i = 0; i != Cells.GetLength(0); ++i)
             {
                 for (int j = 0; j != Cells.GetLength(1); ++j)
@@ -39,7 +39,7 @@ namespace Modeling.Modes
             }
         }
 
-        private Cell GenerateCell()
+        private FieldCell GenerateCell()
         {
             var max = Enum.GetValues(typeof(Locality)).Cast<int>().Max();
             var min = Enum.GetValues(typeof(Locality)).Cast<int>().Min();
@@ -49,10 +49,10 @@ namespace Modeling.Modes
             
             if (locality == Locality.Field)
             {
-                return new Field();
+                return new WolfsField();
             }
 
-            return new Cell(locality);
+            return new FieldCell(locality);
         }
 
         private void FillNeighbods()
@@ -61,7 +61,7 @@ namespace Modeling.Modes
             {
                 for (int j = 0; j != Cells.GetLength(1); ++j)
                 {
-                    var neighboards = new List<Cell>();
+                    var neighboards = new List<ICell>();
                     
                     for (int neighHeight = i - 1; neighHeight <= i + 1; ++neighHeight)
                     {
@@ -80,7 +80,7 @@ namespace Modeling.Modes
 
                     }
 
-                    Cells[i, j].neighboads = neighboards;
+                    Cells[i, j].SetNeighboads(neighboards);
                 }
             }
         }

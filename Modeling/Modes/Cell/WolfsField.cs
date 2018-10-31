@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace Modeling.Modes
 {
-	public abstract class WolfsField : HunterField
+	public class WolfsField : HunterField
     {
 		private const int MAX_WOLFS_AMOUNT = 3;
 
-		public int WolfsAmount { get; set; }
+        protected int wolfsAmount;
 		private int tempWolfs = 0;
 
 		protected readonly Random random = new Random();
 
 		public WolfsField() : base()
 		{
-			RubbitsAmount = random.Next(0, MAX_WOLFS_AMOUNT);
+			rubbitsAmount = random.Next(0, MAX_WOLFS_AMOUNT);
             MigrateWolfs(tempWolfs);
             tempWolfs = 0;
         }
@@ -28,34 +28,34 @@ namespace Modeling.Modes
 
         private void Eat()
         {
-            if (WolfsAmount == HuntersAmount)
+            if (wolfsAmount == huntersAmount)
             {
-                MigrateHunters(HuntersAmount);
-                MigrateWolfs(WolfsAmount);
+                MigrateHunters(huntersAmount);
+                MigrateWolfs(wolfsAmount);
                 return;
             }
 
-            if (WolfsAmount > HuntersAmount && HuntersAmount > 0)
+            if (wolfsAmount > huntersAmount && huntersAmount > 0)
             {
-                --HuntersAmount;
-                MigrateHunters(HuntersAmount);
+                --huntersAmount;
+                MigrateHunters(huntersAmount);
                 return;
             }
 
-            if (WolfsAmount < HuntersAmount && WolfsAmount > 0)
+            if (wolfsAmount < huntersAmount && wolfsAmount > 0)
             {
-                --WolfsAmount;
-                for (var i = 0; i != WolfsAmount; ++i)
+                --wolfsAmount;
+                for (var i = 0; i != wolfsAmount; ++i)
                 {
-                    MigrateWolfs(WolfsAmount);
+                    MigrateWolfs(wolfsAmount);
                 }
                 return;
             }
 
-            if (WolfsAmount > 0 && RubbitsAmount > 0)
+            if (wolfsAmount > 0 && rubbitsAmount > 0)
             {
-                var tmpRubbitsAmount = RubbitsAmount - WolfsAmount * 2;
-                RubbitsAmount = tmpRubbitsAmount < 0 ? 0 : tmpRubbitsAmount;
+                var tmpRubbitsAmount = rubbitsAmount - wolfsAmount * 2;
+                rubbitsAmount = tmpRubbitsAmount < 0 ? 0 : tmpRubbitsAmount;
                 return;
             }
         }
@@ -79,11 +79,16 @@ namespace Modeling.Modes
             base.Refresh();
 
             //check hunters for max amount
-            var sum = WolfsAmount + tempWolfs;
+            var sum = wolfsAmount + tempWolfs;
             var sumWolfs = sum <= MAX_WOLFS_AMOUNT ? sum : MAX_WOLFS_AMOUNT;
-            WolfsAmount = sumWolfs;
+            wolfsAmount = sumWolfs;
 
-            tempWolfs = WolfsAmount + tempWolfs - sumWolfs;
+            tempWolfs = wolfsAmount + tempWolfs - sumWolfs;
+        }
+
+        public override int GetWolfs()
+        {
+            return wolfsAmount;
         }
     }
 }

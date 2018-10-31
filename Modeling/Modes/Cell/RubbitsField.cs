@@ -7,14 +7,14 @@ namespace Modeling.Modes
 	{
 		private const int MAX_RUBBISH_AMOUNT = 3;
 
-		public int RubbitsAmount { get; set; }
+        protected int rubbitsAmount;
 		private int tempRubbits = 0;
 
 		protected readonly Random random = new Random();
 
 		public RubbitsField() : base()
 		{
-			RubbitsAmount = random.Next(0, MAX_RUBBISH_AMOUNT);
+			rubbitsAmount = random.Next(0, MAX_RUBBISH_AMOUNT);
 		}
 
 		public override void NextBeat()
@@ -26,7 +26,7 @@ namespace Modeling.Modes
 
 		private void FeedRabbits()
 		{
-			var grassesJuiciness = Grass.Juiciness - RubbitsAmount;
+			var grassesJuiciness = Grass.Juiciness - rubbitsAmount;
 			if (grassesJuiciness >= 0)
 			{
 				Grass.Juiciness = grassesJuiciness;
@@ -34,23 +34,23 @@ namespace Modeling.Modes
 			}
 			
 			Grass.Juiciness = 0;
-			RubbitsAmount = RubbitsAmount - Grass.Juiciness;
+			rubbitsAmount = rubbitsAmount - Grass.Juiciness;
 
 			var migrateRabbishAmount = Math.Abs(grassesJuiciness);
 
 			for (var i = 0; i != migrateRabbishAmount; ++i)
 			{
 				neighboads[random.Next(0, neighboads.Count() - 1)].AddRubbit();
-                --RubbitsAmount;
+                --rubbitsAmount;
 			}
 			
 		}
 
         private void Breeding()
         {
-            if (RubbitsAmount == 2)
+            if (rubbitsAmount == 2)
             {
-                ++RubbitsAmount;
+                ++rubbitsAmount;
             }
         }
 
@@ -66,9 +66,14 @@ namespace Modeling.Modes
 
 
             //check alive for max amount
-            var sum = RubbitsAmount + tempRubbits;
-            RubbitsAmount =  sum == MAX_RUBBISH_AMOUNT ? MAX_RUBBISH_AMOUNT : sum % MAX_RUBBISH_AMOUNT;
+            var sum = rubbitsAmount + tempRubbits;
+            rubbitsAmount =  sum == MAX_RUBBISH_AMOUNT ? MAX_RUBBISH_AMOUNT : sum % MAX_RUBBISH_AMOUNT;
             tempRubbits = 0;
+        }
+
+        public override int GetRubbits()
+        {
+            return rubbitsAmount;
         }
     }
 }

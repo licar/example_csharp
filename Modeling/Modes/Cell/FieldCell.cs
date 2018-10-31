@@ -7,7 +7,7 @@ namespace Modeling.Modes
 	{
         public Locality Locality { get;}
 
-        protected IList<FieldCell> neighboads;
+        protected IList<ICell> neighboads;
 
         public FieldCell(Locality locality)
         {
@@ -24,5 +24,30 @@ namespace Modeling.Modes
         public virtual void AddHunter(){}
 
         public virtual void AddWolf() {}
+
+        public virtual int GetWolfs()
+        {
+            return 0;
+        }
+
+        public virtual int GetRubbits()
+        {
+            return 0;
+        }
+
+        public virtual int GetHunters()
+        {
+            return 0; ;
+        }
+
+        public IList<ICell> GetNeighboads()
+        {
+           return neighboads;
+        }
+
+        public void SetNeighboads(IList<ICell> neighbords)
+        {
+            this.neighboads = neighboads;
+        }
     }
 }
