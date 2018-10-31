@@ -8,10 +8,11 @@ namespace Modeling.Modes
 	public class Island
 	{
 		public ICell[,] Cells { get; }
-        
-		public Island(int height, int widht)
+        private Random random = new Random();
+
+        public Island(int height, int widht)
 		{
-            Cells = new FieldCell[height, widht];
+            Cells = new ICell[height, widht];
             GenerateIslend();
             FillNeighbods();
         }
@@ -29,12 +30,11 @@ namespace Modeling.Modes
 
         private void GenerateIslend()
         {
-            var cells = new FieldCell[Cells.GetLength(0), Cells.GetLength(1)];
             for (int i = 0; i != Cells.GetLength(0); ++i)
             {
                 for (int j = 0; j != Cells.GetLength(1); ++j)
                 {
-                    cells[i, j] = GenerateCell();
+                    Cells[i, j] = GenerateCell();
                 }
             }
         }
@@ -44,8 +44,8 @@ namespace Modeling.Modes
             var max = Enum.GetValues(typeof(Locality)).Cast<int>().Max();
             var min = Enum.GetValues(typeof(Locality)).Cast<int>().Min();
 
-            Random random = new Random();
-            var locality = (Locality) random.Next(min, max);
+            
+            var locality = (Locality) random.Next(min, max + 1);
             
             if (locality == Locality.Field)
             {
@@ -57,9 +57,9 @@ namespace Modeling.Modes
 
         private void FillNeighbods()
         {
-            for (int i = 0; i != Cells.GetLength(0); ++i)
+            for (int i = 0; i != Cells.GetLength(0) - 1; ++i)
             {
-                for (int j = 0; j != Cells.GetLength(1); ++j)
+                for (int j = 0; j != Cells.GetLength(1) - 1; ++j)
                 {
                     var neighboards = new List<ICell>();
                     
@@ -75,9 +75,9 @@ namespace Modeling.Modes
                             {
                                 continue;
                             }
+
                             neighboards.Add(Cells[neighHeight, neighWidht]);
                         }
-
                     }
 
                     Cells[i, j].SetNeighboads(neighboards);

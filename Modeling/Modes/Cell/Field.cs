@@ -104,5 +104,10 @@ namespace Modeling.Modes
 				Grass.Rise();
 			}
 		}
-	}
+
+        public override int GetJuiciness()
+        {
+            return Grass.Juiciness;
+        }
+    }
 }

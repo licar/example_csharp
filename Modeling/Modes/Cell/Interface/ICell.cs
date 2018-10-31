@@ -16,5 +16,6 @@ namespace Modeling.Modes
         IList<ICell> GetNeighboads();
         void SetNeighboads(IList<ICell> neighbords);
         Locality GetLocality();
+        int GetJuiciness();
     }
 }

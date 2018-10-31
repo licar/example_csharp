@@ -15,7 +15,7 @@ namespace Modeling.Modes
 
 		public WolfsField() : base()
 		{
-			rubbitsAmount = random.Next(0, MAX_WOLFS_AMOUNT);
+			wolfsAmount = random.Next(0, MAX_WOLFS_AMOUNT);
             MigrateWolfs(tempWolfs);
             tempWolfs = 0;
         }

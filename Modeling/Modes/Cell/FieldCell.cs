@@ -54,5 +54,10 @@ namespace Modeling.Modes
         {
             return locality;
         }
+
+        public virtual int GetJuiciness()
+        {
+            return 0;
+        }
     }
 }
