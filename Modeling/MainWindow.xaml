@@ -5,13 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Modeling"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="Grid">
-        <GroupBox x:Name="GroupBox"  HorizontalAlignment="Left" Height="95" VerticalAlignment="Bottom" Width="95" Margin="0,0,0,0">
-            <GroupBox.Background>
-                <ImageBrush/>
-            </GroupBox.Background>
-            <TextBlock x:Name="Text" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="95" Width="95"/>
-        </GroupBox>
-    </Grid>
+        Title="MainWindow" Height="1000" Width="1000">
+    <Grid x:Name="Grid"/>
 </Window>

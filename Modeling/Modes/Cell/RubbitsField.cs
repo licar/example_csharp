@@ -9,12 +9,11 @@ namespace Modeling.Modes
 
         protected int rubbitsAmount;
 		private int tempRubbits = 0;
+        protected Random random = new Random((int)DateTime.Now.Ticks);
 
-		protected readonly Random random = new Random();
-
-		public RubbitsField() : base()
+        public RubbitsField() : base()
 		{
-			rubbitsAmount = random.Next(0, MAX_RUBBISH_AMOUNT);
+            rubbitsAmount = random.Next(MAX_RUBBISH_AMOUNT + 1);
 		}
 
 		public override void NextBeat()
@@ -40,7 +39,7 @@ namespace Modeling.Modes
 
 			for (var i = 0; i != migrateRabbishAmount; ++i)
 			{
-				neighboads[random.Next(0, neighboads.Count() - 1)].AddRubbit();
+                neighboads[random.Next(0, neighboads.Count())].AddRubbit();
                 --rubbitsAmount;
 			}
 			
@@ -73,7 +72,7 @@ namespace Modeling.Modes
 
         public override int GetRubbits()
         {
-            return rubbitsAmount;
+            return this.rubbitsAmount;
         }
     }
 }

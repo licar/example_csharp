@@ -1,5 +1,6 @@
 ﻿using Modeling.Common.Enums;
 using Modeling.Modes;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,44 +15,46 @@ namespace Modeling
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-        private const string GROUP_BOX = "GroupBox";
+        private const string GROUP_BOX = "TextBox";
         private const string GRID = "Grid";
-        private const double SIZE_ROW = 95;
+        
+
+        private const double SIZE_ROW = 100;
         private const int HEIGHT = 10;
         private const int WIDHT = 10;
         private BrushConverter conv = new BrushConverter();
+        private Island island;
 
         private Grid grid;
 
         public MainWindow()
 		{
 			InitializeComponent();
-            var island = new Island(HEIGHT, WIDHT);
+            island = new Island(HEIGHT, WIDHT);
             grid = this.FindName(GRID) as Grid;
-            GenerateRows(HEIGHT, WIDHT, island);
+            GenerateRows(HEIGHT, WIDHT);
 		}
 
-        public void GenerateRows(int height, int widht, Island island)
+        public void GenerateRows(int height, int widht)
         {
-            var groupBox =  (GroupBox)this.FindName(GROUP_BOX);
-            var cloneName = XamlWriter.Save(groupBox);
 
             for (int i = 0; i != height; ++i)
             {
                 for (int j = 0; j != widht; ++j)
                 {
-                    var cloneGroupBox = Load(cloneName);
+                    var cloneGroupBox = new TextBlock();
+                    cloneGroupBox.Width = SIZE_ROW;
+                    cloneGroupBox.Height = SIZE_ROW; 
                     cloneGroupBox.Name = $"{GROUP_BOX}{i}_{j}";
-                    cloneGroupBox.Margin = new Thickness(i * SIZE_ROW, 0, 0, j * SIZE_ROW);
+                    cloneGroupBox.Margin = new Thickness(i * SIZE_ROW, j * SIZE_ROW, 0, 0);
                     
-                    ChangeCellColor(island.Cells[i, j], cloneGroupBox);
-
+                    UpdateCell(island.Cells[i, j], cloneGroupBox);
                     grid.Children.Add(cloneGroupBox);
                 }
             }
         }
 
-        private void ChangeCellColor(ICell cell, GroupBox groupBox)
+        private void ChangeCellColor(ICell cell, TextBlock groupBox)
         {
             if (cell.GetLocality() == Locality.Field)
             {
@@ -85,20 +88,25 @@ namespace Modeling
             }
         }
 
-        private GroupBox Load(string cloneName)
+        private void UpdateCell(ICell cell, TextBlock groupBox)
+        {
+            ChangeCellColor(cell, groupBox);
+            UpdateText(cell, groupBox);
+        }
+
+        private void UpdateText(ICell cell, TextBlock groupBox)
+        {
+            if (cell.GetLocality() == Locality.Field)
+            {
+                groupBox.Text = $"R : {cell.GetRubbits()}{Environment.NewLine}H : {cell.GetHunters()}{Environment.NewLine}W : {cell.GetWolfs()}{Environment.NewLine}";
+            }
+        }
+
+        private TextBlock Load(string cloneName)
         {
             StringReader stringReader = new StringReader(cloneName);
             XmlReader xmlReader = XmlReader.Create(stringReader);
-            return XamlReader.Load(xmlReader) as GroupBox;
+            return XamlReader.Load(xmlReader) as TextBlock;
         }
-
-        //public void Refresh()
-        //{
-        //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(groupBox); i++)
-        //    {
-        //        var child = VisualTreeHelper.GetChild(groupBox, i);
-        //        var result = child as TextBlock;
-        //    };
-        //}
-	}
+    }
 }

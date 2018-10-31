@@ -12,7 +12,7 @@ namespace Modeling.Modes
         public FieldCell(Locality locality)
         {
             this.locality = locality;
-            //neighboads = null;
+            neighboads = null;
         }
 
         public virtual void NextBeat(){}

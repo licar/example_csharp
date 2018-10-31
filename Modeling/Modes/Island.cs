@@ -34,7 +34,7 @@ namespace Modeling.Modes
             {
                 for (int j = 0; j != Cells.GetLength(1); ++j)
                 {
-                    Cells[i, j] = GenerateCell();
+                    Cells[i, j] = GenerateCell() as ICell;
                 }
             }
         }
@@ -49,7 +49,8 @@ namespace Modeling.Modes
             
             if (locality == Locality.Field)
             {
-                return new WolfsField();
+                var wold = new WolfsField();
+                return wold;
             }
 
             return new FieldCell(locality);

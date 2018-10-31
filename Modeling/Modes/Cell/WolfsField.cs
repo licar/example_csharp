@@ -4,26 +4,24 @@ using System.Linq;
 
 namespace Modeling.Modes
 {
-	public class WolfsField : HunterField
+	public sealed class WolfsField : HunterField
     {
 		private const int MAX_WOLFS_AMOUNT = 3;
 
         protected int wolfsAmount;
 		private int tempWolfs = 0;
 
-		protected readonly Random random = new Random();
-
 		public WolfsField() : base()
 		{
-			wolfsAmount = random.Next(0, MAX_WOLFS_AMOUNT);
-            MigrateWolfs(tempWolfs);
-            tempWolfs = 0;
+            wolfsAmount = random.Next(MAX_WOLFS_AMOUNT + 1);
         }
 
 		public override void NextBeat()
 		{
 			base.NextBeat();
             Eat();
+            MigrateWolfs(tempWolfs);
+            tempWolfs = 0;
         }
 
         private void Eat()
@@ -60,11 +58,11 @@ namespace Modeling.Modes
             }
         }
 
-        protected void MigrateWolfs(int count)
+        private void MigrateWolfs(int count)
         {
             for (var i = 0; i != count; ++i)
             {
-                neighboads[random.Next(0, neighboads.Count() - 1)].AddWolf();
+                neighboads[random.Next(0, neighboads.Count())].AddWolf();
             }
 
         }
@@ -88,7 +86,7 @@ namespace Modeling.Modes
 
         public override int GetWolfs()
         {
-            return wolfsAmount;
+            return this.wolfsAmount;
         }
     }
 }
