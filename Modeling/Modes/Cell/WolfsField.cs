@@ -13,7 +13,7 @@ namespace Modeling.Modes
 
 		public WolfsField() : base()
 		{
-            wolfsAmount = random.Next(MAX_WOLFS_AMOUNT + 1);
+            wolfsAmount = GenerateRandom(0, MAX_WOLFS_AMOUNT + 1);
         }
 
 		public override void NextBeat()
@@ -62,7 +62,7 @@ namespace Modeling.Modes
         {
             for (var i = 0; i != count; ++i)
             {
-                neighboads[random.Next(0, neighboads.Count())].AddWolf();
+                neighboads[GenerateRandom(0, neighboads.Count())].AddWolf();
             }
 
         }

@@ -11,7 +11,7 @@ namespace Modeling.Modes.Cell
 
         public HunterField() : base() 
         {
-            huntersAmount = random.Next(MAX_HUNTERS_AMOUNT + 1);
+            huntersAmount = GenerateRandom(0, MAX_HUNTERS_AMOUNT + 1);
         }
 
         public override void NextBeat()
@@ -47,7 +47,7 @@ namespace Modeling.Modes.Cell
         {
             for (var i = 0; i != count; ++i)
             {
-                neighboads[random.Next(0, neighboads.Count())].AddHunter();
+                neighboads[GenerateRandom(0, neighboads.Count())].AddHunter();
             }
             
         }
@@ -68,5 +68,6 @@ namespace Modeling.Modes.Cell
         {
             return this.huntersAmount;
         } 
+
     }
 }

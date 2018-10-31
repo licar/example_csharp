@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 
 namespace Modeling.Modes
 {
@@ -9,11 +10,11 @@ namespace Modeling.Modes
 
         protected int rubbitsAmount;
 		private int tempRubbits = 0;
-        protected Random random = new Random((int)DateTime.Now.Ticks);
+        protected Random random = new Random();
 
         public RubbitsField() : base()
 		{
-            rubbitsAmount = random.Next(MAX_RUBBISH_AMOUNT + 1);
+            rubbitsAmount = GenerateRandom(0, MAX_RUBBISH_AMOUNT + 1);
 		}
 
 		public override void NextBeat()
@@ -39,7 +40,7 @@ namespace Modeling.Modes
 
 			for (var i = 0; i != migrateRabbishAmount; ++i)
 			{
-                neighboads[random.Next(0, neighboads.Count())].AddRubbit();
+                neighboads[GenerateRandom(0, neighboads.Count())].AddRubbit();
                 --rubbitsAmount;
 			}
 			
@@ -73,6 +74,12 @@ namespace Modeling.Modes
         public override int GetRubbits()
         {
             return this.rubbitsAmount;
+        }
+
+        protected int GenerateRandom(int min, int max)
+        {
+            Thread.Sleep(5);
+            return random.Next(min, max);
         }
     }
 }
