@@ -20,8 +20,8 @@ namespace Modeling
         private TextBlock[,] groupBox;
 
         private const double SIZE_ROW = 100;
-        private const int HEIGHT = 10;
-        private const int WIDHT = 10;
+        private const int HEIGHT = 5;
+        private const int WIDHT = 5;
         private BrushConverter conv = new BrushConverter();
         private Island island;
 
@@ -40,6 +40,7 @@ namespace Modeling
         public void Refresh()
         {
             NextStep();
+            
         }
 
         public void GenerateRows()
@@ -128,6 +129,11 @@ namespace Modeling
             StringReader stringReader = new StringReader(cloneName);
             XmlReader xmlReader = XmlReader.Create(stringReader);
             return XamlReader.Load(xmlReader) as TextBlock;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Refresh();
         }
     }
 }

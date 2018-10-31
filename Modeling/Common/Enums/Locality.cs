@@ -2,8 +2,8 @@
 {
 	public enum Locality
 	{
-		Field = 0,
-		Hill = 1,
-		River = 2
-	}
+		Hill = 0,
+		River = 1,
+        Field = 2,
+    }
 }

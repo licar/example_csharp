@@ -78,7 +78,7 @@ namespace Modeling.Modes
 
         protected int GenerateRandom(int min, int max)
         {
-            Thread.Sleep(5);
+            Thread.Sleep(1);
             return random.Next(min, max);
         }
     }

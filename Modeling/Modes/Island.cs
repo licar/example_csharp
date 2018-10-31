@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Modeling.Modes
 {
@@ -24,6 +25,7 @@ namespace Modeling.Modes
                 for (int j = 0; j != Cells.GetLength(1); ++j)
                 {
                     Cells[i, j].NextBeat();
+                    Cells[i, j].Refresh();
                 }
             }
         }
@@ -44,9 +46,11 @@ namespace Modeling.Modes
             var max = Enum.GetValues(typeof(Locality)).Cast<int>().Max();
             var min = Enum.GetValues(typeof(Locality)).Cast<int>().Min();
 
-            
-            var locality = (Locality) random.Next(min, max + 1);
-            
+            Thread.Sleep(1);
+            int result =  random.Next(min, 5);
+
+            var locality = result > 1 ? Locality.Field : (Locality) result;
+
             if (locality == Locality.Field)
             {
                 var wold = new WolfsField();
@@ -58,21 +62,23 @@ namespace Modeling.Modes
 
         private void FillNeighbods()
         {
-            for (int i = 0; i != Cells.GetLength(0) - 1; ++i)
+            for (int i = 0; i != Cells.GetLength(0); ++i)
             {
-                for (int j = 0; j != Cells.GetLength(1) - 1; ++j)
+                for (int j = 0; j != Cells.GetLength(1); ++j)
                 {
                     var neighboards = new List<ICell>();
                     
                     for (int neighHeight = i - 1; neighHeight <= i + 1; ++neighHeight)
                     {
-                        if (neighHeight < 0 || neighHeight > Cells.GetLength(0))
+                        if (neighHeight < 0 || neighHeight > Cells.GetLength(0) - 1)
                         {
                             continue;
                         }
                         for (int neighWidht = j - 1; neighWidht <= j + 1; ++neighWidht)
                         {
-                            if (neighWidht < 0 || neighWidht > Cells.GetLength(1) || (neighHeight == i && neighWidht == j))
+                           
+
+                            if (neighWidht < 0 || neighWidht > Cells.GetLength(1) - 1 || (neighHeight == i && neighWidht == j))
                             {
                                 continue;
                             }

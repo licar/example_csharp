@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Modeling.Common.Enums;
 
 namespace Modeling.Modes
@@ -15,7 +16,8 @@ namespace Modeling.Modes
 
 		public void RefreshState()
 		{
-			NatureState =  (NatureState)random.Next(0, 4);
+            Thread.Sleep(5);
+            NatureState =  (NatureState)random.Next(0, 4);
 		}
 	}
 }

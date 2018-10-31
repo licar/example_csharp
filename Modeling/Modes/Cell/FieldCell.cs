@@ -12,7 +12,7 @@ namespace Modeling.Modes
         public FieldCell(Locality locality)
         {
             this.locality = locality;
-            neighboads = null;
+            neighboads = new List<ICell>();
         }
 
         public virtual void NextBeat(){}
@@ -47,7 +47,7 @@ namespace Modeling.Modes
 
         public void SetNeighboads(IList<ICell> neighbords)
         {
-            this.neighboads = neighboads;
+            this.neighboads = neighbords;
         }
 
         public Locality GetLocality()
