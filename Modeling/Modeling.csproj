@@ -56,6 +56,7 @@
     </ApplicationDefinition>
     <Compile Include="Modes\Cell\HunterField.cs" />
     <Compile Include="Modes\Cell\Interface\ICell.cs" />
+    <Compile Include="Modes\Cell\WolfsField.cs" />
     <Compile Include="Modes\Cell\RubbitsField.cs" />
     <Compile Include="Services\ModelingService.cs" />
     <Page Include="MainWindow.xaml">

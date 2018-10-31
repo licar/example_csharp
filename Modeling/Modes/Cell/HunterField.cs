@@ -19,8 +19,8 @@ namespace Modeling.Modes.Cell
             base.NextBeat();
             Hunt();
 
-            //MigrateHunters(tempHuntersAmount);
-            //tempHuntersAmount = 0;
+            MigrateHunters(tempHuntersAmount);
+            tempHuntersAmount = 0;
         }
 
         public override void AddHunter()
@@ -43,7 +43,7 @@ namespace Modeling.Modes.Cell
             MigrateHunters(migrateHunters);
         }
 
-        private void MigrateHunters(int count)
+        protected void MigrateHunters(int count)
         {
             for (var i = 0; i != count; ++i)
             {

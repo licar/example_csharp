@@ -6,5 +6,6 @@
         void Refresh();
         void NextBeat();
         void AddHunter();
+        void AddWolf();
     }
 }

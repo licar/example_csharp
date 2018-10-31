@@ -22,5 +22,7 @@ namespace Modeling.Modes
         public virtual void Refresh() {}
 
         public virtual void AddHunter(){}
+
+        public virtual void AddWolf() {}
     }
 }
