@@ -14,7 +14,7 @@ namespace Modeling.Modes
 
         public RubbitsField() : base()
 		{
-            rubbitsAmount = GenerateRandom(0, MAX_RUBBISH_AMOUNT + 1);
+            rubbitsAmount = GenerateRandom(MAX_RUBBISH_AMOUNT + 1);
 		}
 
 		public override void NextBeat()
@@ -33,15 +33,14 @@ namespace Modeling.Modes
 				return;
 			}
 			
-			Grass.Juiciness = 0;
-			rubbitsAmount = rubbitsAmount - Grass.Juiciness;
-
-			var migrateRabbishAmount = Math.Abs(grassesJuiciness);
+			
+			rubbitsAmount = Grass.Juiciness;
+            Grass.Juiciness = 0;
+            var migrateRabbishAmount = Math.Abs(grassesJuiciness);
 
 			for (var i = 0; i != migrateRabbishAmount; ++i)
 			{
-                neighboads[GenerateRandom(0, neighboads.Count())].AddRubbit();
-                --rubbitsAmount;
+                neighboads[GenerateRandom(neighboads.Count())].AddRubbit();
 			}
 			
 		}
@@ -61,10 +60,6 @@ namespace Modeling.Modes
 
         public override void Refresh()
         {
-            //check alive for grass loginc
-            tempRubbits = Grass.Juiciness >= tempRubbits ? tempRubbits : tempRubbits - Grass.Juiciness;
-
-
             //check alive for max amount
             var sum = rubbitsAmount + tempRubbits;
             rubbitsAmount =  sum == MAX_RUBBISH_AMOUNT ? MAX_RUBBISH_AMOUNT : sum % MAX_RUBBISH_AMOUNT;
@@ -76,10 +71,10 @@ namespace Modeling.Modes
             return this.rubbitsAmount;
         }
 
-        protected int GenerateRandom(int min, int max)
+        protected int GenerateRandom(int max)
         {
             Thread.Sleep(1);
-            return random.Next(min, max);
+            return random.Next(max);
         }
     }
 }

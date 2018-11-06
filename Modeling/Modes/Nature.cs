@@ -16,7 +16,7 @@ namespace Modeling.Modes
 
 		public void RefreshState()
 		{
-            Thread.Sleep(5);
+            Thread.Sleep(1);
             NatureState =  (NatureState)random.Next(0, 4);
 		}
 	}

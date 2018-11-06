@@ -25,6 +25,13 @@ namespace Modeling.Modes
                 for (int j = 0; j != Cells.GetLength(1); ++j)
                 {
                     Cells[i, j].NextBeat();
+                    
+                }
+            }
+            for (int i = 0; i != Cells.GetLength(0); ++i)
+            {
+                for (int j = 0; j != Cells.GetLength(1); ++j)
+                {
                     Cells[i, j].Refresh();
                 }
             }
@@ -47,7 +54,7 @@ namespace Modeling.Modes
             var min = Enum.GetValues(typeof(Locality)).Cast<int>().Min();
 
             Thread.Sleep(1);
-            int result =  random.Next(min, 5);
+            int result =  random.Next(min, 7);
 
             var locality = result > 1 ? Locality.Field : (Locality) result;
 

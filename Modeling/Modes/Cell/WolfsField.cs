@@ -13,23 +13,25 @@ namespace Modeling.Modes
 
 		public WolfsField() : base()
 		{
-            wolfsAmount = GenerateRandom(0, MAX_WOLFS_AMOUNT + 1);
+            MigrateWolfs(tempWolfs);
+            tempWolfs = 0;
+            wolfsAmount = GenerateRandom(MAX_WOLFS_AMOUNT + 1);
         }
 
 		public override void NextBeat()
 		{
-			base.NextBeat();
             Eat();
-            MigrateWolfs(tempWolfs);
-            tempWolfs = 0;
+            base.NextBeat();
         }
 
         private void Eat()
         {
-            if (wolfsAmount == huntersAmount)
+            if (wolfsAmount == huntersAmount && huntersAmount != 0)
             {
                 MigrateHunters(huntersAmount);
                 MigrateWolfs(wolfsAmount);
+                wolfsAmount = 0;
+                huntersAmount = 0;
                 return;
             }
 
@@ -53,7 +55,19 @@ namespace Modeling.Modes
             if (wolfsAmount > 0 && rubbitsAmount > 0)
             {
                 var tmpRubbitsAmount = rubbitsAmount - wolfsAmount * 2;
-                rubbitsAmount = tmpRubbitsAmount < 0 ? 0 : tmpRubbitsAmount;
+                
+                if (tmpRubbitsAmount > 0)
+                {
+                    rubbitsAmount = tmpRubbitsAmount;
+                    return;
+                }
+                rubbitsAmount = 0;
+
+                var migrateWolfs = Math.Abs(tmpRubbitsAmount) / 2;
+                wolfsAmount = wolfsAmount - migrateWolfs;
+                MigrateWolfs(migrateWolfs);
+
+
                 return;
             }
         }
@@ -62,7 +76,7 @@ namespace Modeling.Modes
         {
             for (var i = 0; i != count; ++i)
             {
-                neighboads[GenerateRandom(0, neighboads.Count())].AddWolf();
+                neighboads[GenerateRandom(neighboads.Count())].AddWolf();
             }
 
         }
@@ -78,10 +92,8 @@ namespace Modeling.Modes
 
             //check hunters for max amount
             var sum = wolfsAmount + tempWolfs;
-            var sumWolfs = sum <= MAX_WOLFS_AMOUNT ? sum : MAX_WOLFS_AMOUNT;
-            wolfsAmount = sumWolfs;
-
-            tempWolfs = wolfsAmount + tempWolfs - sumWolfs;
+            wolfsAmount = sum <= MAX_WOLFS_AMOUNT ? sum : MAX_WOLFS_AMOUNT;
+            tempWolfs = sum - wolfsAmount;
         }
 
         public override int GetWolfs()

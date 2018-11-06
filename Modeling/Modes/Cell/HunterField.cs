@@ -11,16 +11,15 @@ namespace Modeling.Modes.Cell
 
         public HunterField() : base() 
         {
-            huntersAmount = GenerateRandom(0, MAX_HUNTERS_AMOUNT + 1);
+            MigrateHunters(huntersAmount);
+            tempHuntersAmount = 0;
+            huntersAmount = GenerateRandom(MAX_HUNTERS_AMOUNT + 1);
         }
 
         public override void NextBeat()
         {
-            base.NextBeat();
             Hunt();
-
-            MigrateHunters(tempHuntersAmount);
-            tempHuntersAmount = 0;
+            base.NextBeat();
         }
 
         public override void AddHunter()
@@ -37,9 +36,10 @@ namespace Modeling.Modes.Cell
                 return;
             }
 
+            var migrateHunters = Math.Abs(huntersAmount - rubbitsAmount);
+            rubbitsAmount = 0;
             huntersAmount = 0;
 
-            var migrateHunters = Math.Abs(huntersAmount - rubbitsAmount);
             MigrateHunters(migrateHunters);
         }
 
@@ -47,7 +47,12 @@ namespace Modeling.Modes.Cell
         {
             for (var i = 0; i != count; ++i)
             {
-                neighboads[GenerateRandom(0, neighboads.Count())].AddHunter();
+                var alive = neighboads.Where(n => n.GetLocality() == Common.Enums.Locality.Field).ToArray();
+                if (!alive.Any())
+                {
+                    return;
+                }
+                alive[GenerateRandom(alive.Count())].AddHunter();
             }
             
         }
@@ -58,10 +63,8 @@ namespace Modeling.Modes.Cell
 
             //check hunters for max amount
             var sum = huntersAmount + tempHuntersAmount;
-            var sumHunters = sum <= MAX_HUNTERS_AMOUNT ? sum : MAX_HUNTERS_AMOUNT;
-            huntersAmount = sumHunters;
-
-            tempHuntersAmount = huntersAmount + tempHuntersAmount - sumHunters;
+            huntersAmount = sum <= MAX_HUNTERS_AMOUNT ? sum : MAX_HUNTERS_AMOUNT;
+            tempHuntersAmount = sum - huntersAmount;
         }
 
         public override int GetHunters()

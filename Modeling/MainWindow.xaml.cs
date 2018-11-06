@@ -20,8 +20,8 @@ namespace Modeling
         private TextBlock[,] groupBox;
 
         private const double SIZE_ROW = 100;
-        private const int HEIGHT = 5;
-        private const int WIDHT = 5;
+        private const int HEIGHT = 10;
+        private const int WIDHT = 10;
         private BrushConverter conv = new BrushConverter();
         private Island island;
 
@@ -66,11 +66,11 @@ namespace Modeling
 
         private void NextStep()
         {
+            island.NextBeat();
             for (int i = 0; i != HEIGHT; ++i)
             {
                 for (int j = 0; j != WIDHT; ++j)
                 {
-                    island.NextBeat();
                     UpdateCell(island.Cells[i, j], groupBox[i, j]);
                 }
             }
