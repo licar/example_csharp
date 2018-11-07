@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:Modeling"
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1000">
-    <Grid x:Name="Grid">
-        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="Button_Click" RenderTransformOrigin="0.405,2.841"/>
-    </Grid>
+    <Canvas x:Name="Panel">
+        <Canvas x:Name="Grid">
+            <TextBlock/>
+        </Canvas>
+        <Button Panel.ZIndex="1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="Button_Click" />
+    </Canvas>
 </Window>
