@@ -10,28 +10,28 @@ namespace Modeling.Services
 {
     class ModelingService
     {
-        Command commad = new Command();
-        Island island;
+        //Command commad = new Command();
+        //Island island;
 
-        ModelingService(int height, int widht)
-        {
-            island = new Island(height, widht);
-	        commad.AddState(island);
-        }
-
-        public void NextBeat()
-        {
-            island.NextBeat();
-        }
-
-        //public void Render(int state)
+        //ModelingService(int height, int widht)
         //{
-        //    return commad.GetState(state);
+        //    island = new Island(height, widht);
+	       // commad.AddState(island);
         //}
 
-        public void Render()
-        {
+        //public void NextBeat()
+        //{
+        //    island.NextBeat();
+        //}
 
-        }
+        ////public void Render(int state)
+        ////{
+        ////    return commad.GetState(state);
+        ////}
+
+        //public void Render()
+        //{
+
+        //}
     }
 }

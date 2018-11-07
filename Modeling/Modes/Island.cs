@@ -1,17 +1,26 @@
 ﻿using Modeling.Common.Enums;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace Modeling.Modes
 {
-	public class Island
+	[Serializable]
+	public class Island 
 	{
 		public ICell[,] Cells { get; }
         private Random random = new Random();
 
-        public Island(int height, int widht)
+		public Island()
+		{
+
+		}
+
+		public Island(int height, int widht)
 		{
             Cells = new ICell[height, widht];
             GenerateIslend();
@@ -54,7 +63,7 @@ namespace Modeling.Modes
             var min = Enum.GetValues(typeof(Locality)).Cast<int>().Min();
 
             Thread.Sleep(1);
-            int result =  random.Next(min, 7);
+            int result =  random.Next(min, 8);
 
             var locality = result > 1 ? Locality.Field : (Locality) result;
 
@@ -98,5 +107,18 @@ namespace Modeling.Modes
                 }
             }
         }
-    }
+
+		public  Island Clone()
+		{
+			using (var ms = new MemoryStream())
+			{
+				var formatter = new BinaryFormatter();
+				formatter.Serialize(ms, this);
+				ms.Position = 0;
+
+				return (Island)formatter.Deserialize(ms);
+			}
+		}
+
+	}
 }

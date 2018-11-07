@@ -4,12 +4,14 @@ using System.Linq;
 
 namespace Modeling.Modes
 {
+	[Serializable]
 	public sealed class WolfsField : HunterField
     {
 		private const int MAX_WOLFS_AMOUNT = 3;
 
         protected int wolfsAmount;
 		private int tempWolfs = 0;
+
 
 		public WolfsField() : base()
 		{

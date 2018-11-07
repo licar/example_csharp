@@ -1,8 +1,10 @@
-﻿using Modeling.Common.Enums;
+﻿using System;
+using Modeling.Common.Enums;
 using System.Collections.Generic;
 
 namespace Modeling.Modes
 {
+	[Serializable]
 	public class FieldCell : ICell
 	{
         private Locality locality;

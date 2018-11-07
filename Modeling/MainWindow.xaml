@@ -10,6 +10,7 @@
         <Canvas x:Name="Grid">
             <TextBlock/>
         </Canvas>
-        <Button Panel.ZIndex="1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="Button_Click" />
-    </Canvas>
+        <Button Panel.ZIndex="1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="Button_Click" Canvas.Top="1" />
+		<TextBlock Panel.ZIndex="1" x:Name="Statistics"/>
+	</Canvas>
 </Window>

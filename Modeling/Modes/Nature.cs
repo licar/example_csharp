@@ -4,6 +4,7 @@ using Modeling.Common.Enums;
 
 namespace Modeling.Modes
 {
+	[Serializable]
 	public class Nature
 	{
 		public NatureState NatureState {get; set;}

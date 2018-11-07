@@ -1,5 +1,8 @@
-﻿namespace Modeling.Modes
+﻿using System;
+
+namespace Modeling.Modes
 {
+	[Serializable]
 	public class Greass
 	{
 		public int Juiciness { get; set; } = 0;

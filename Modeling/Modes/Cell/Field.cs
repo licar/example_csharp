@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Modeling.Common.Enums;
 
 namespace Modeling.Modes
 {
+	[Serializable]
 	public abstract class Field : FieldCell
     {
 		public Nature Sun { get; set; } = new Nature();

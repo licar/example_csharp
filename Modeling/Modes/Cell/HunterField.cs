@@ -3,7 +3,8 @@ using System.Linq;
 
 namespace Modeling.Modes.Cell
 {
-    public class HunterField : RubbitsField
+	[Serializable]
+	public class HunterField : RubbitsField
     {
         private const int MAX_HUNTERS_AMOUNT = 3;
         protected int huntersAmount;

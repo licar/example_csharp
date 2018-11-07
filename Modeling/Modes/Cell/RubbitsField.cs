@@ -4,6 +4,7 @@ using System.Threading;
 
 namespace Modeling.Modes
 {
+	[Serializable]
 	public abstract class RubbitsField : Field
 	{
 		private const int MAX_RUBBISH_AMOUNT = 3;

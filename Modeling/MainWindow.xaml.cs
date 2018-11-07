@@ -1,11 +1,13 @@
 ﻿using Modeling.Common.Enums;
 using Modeling.Modes;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Threading;
 using System.Xml;
 
 namespace Modeling
@@ -29,21 +31,27 @@ namespace Modeling
         private Canvas grid;
         private Canvas panel;
 
-        public MainWindow()
+		private int step = 0;
+		private int rubbits = 0;
+		private int hunters = 0;
+		private int wolfs = 0;
+		private bool end = false;
+		public IList<Island> states = new List<Island>();
+
+		public MainWindow()
 		{
 			InitializeComponent();
             island = new Island(HEIGHT, WIDHT);
             panel =  this.FindName("Panel") as Canvas;
             grid = panel.FindName(GRID) as Canvas;
             GenerateRows();
-            
         }
 
-        public void Refresh()
+        public bool Refresh()
         {
-            NextStep();
-            
-        }
+	        ++step;
+			return NextStep();
+		}
 
         public void GenerateRows()
         {
@@ -60,7 +68,7 @@ namespace Modeling
                     cloneGroupBox.Name = $"{GROUP_BOX}{i}_{j}";
                     cloneGroupBox.Margin = new Thickness(i * SIZE_ROW, j * SIZE_ROW, 0, 0);
                     panel.Children.Add(cloneGroupBox);
-
+					
                     groupBoxes[i, j] = cloneGroupBox;
                     
                     UpdateCell(island.Cells[i, j], cloneGroupBox);
@@ -69,19 +77,33 @@ namespace Modeling
             groupBox = groupBoxes;
         }
 
-        private void NextStep()
+        private bool NextStep()
         {
             island.NextBeat();
-            for (int i = 0; i != HEIGHT; ++i)
+
+	        rubbits = 0;
+	        hunters = 0;
+	        wolfs = 0;
+
+			for (int i = 0; i != HEIGHT; ++i)
             {
                 for (int j = 0; j != WIDHT; ++j)
                 {
                     UpdateCell(island.Cells[i, j], groupBox[i, j]);
-                }
+
+	                rubbits += island.Cells[i, j].GetRubbits();
+					wolfs += island.Cells[i, j].GetWolfs();
+	                hunters += island.Cells[i, j].GetHunters();
+				}
             }
+
+	        var textBlock = panel.FindName("Statistics") as TextBlock;
+	        textBlock.Text  = $"Step : {step}{Environment.NewLine}Rubbits : {rubbits}{Environment.NewLine}Hunters : {hunters}{Environment.NewLine}Wolfs : {wolfs}{Environment.NewLine}";
+
+			return rubbits != 0 || hunters != 0;
         }
 
-        private void ChangeCellColor(ICell cell, Canvas groupBox)
+		private void ChangeCellColor(ICell cell, Canvas groupBox)
         {
             if (cell.GetLocality() == Locality.Field)
             {
@@ -156,12 +178,6 @@ namespace Modeling
                     image.Background = Brushes.Red;
                     groupBox.Children.Add(image);
                 }
-
-                //image.Background
-
-
-                //var textBlock = groupBox.Children[0] as TextBlock;
-                //textBlock.Text  = $"Rubbits : {cell.GetRubbits()}{Environment.NewLine}Hunters : {cell.GetHunters()}{Environment.NewLine}Wolfs : {cell.GetWolfs()}{Environment.NewLine}";
             }
         }
 
@@ -174,7 +190,43 @@ namespace Modeling
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Refresh();
-        }
-    }
+	        while (Refresh())
+	        {
+		        ProcessUITasks();
+				AddState(island.Clone());
+	        }
+		}
+
+		public static void ProcessUITasks()
+		{
+			DispatcherFrame frame = new DispatcherFrame();
+			Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new DispatcherOperationCallback(delegate (object parameter) {
+				frame.Continue = false;
+				return null;
+			}), null);
+			Dispatcher.PushFrame(frame);
+		}
+
+
+		public void AddState(Island state)
+		{
+			states.Add(state);
+		}
+
+		public Island GetState(int i)
+		{
+			if (i < 0 || i > states.Count - 1)
+			{
+				return null;
+			}
+
+			return states[i];
+		}
+
+		public int GetIndex(Island island)
+		{
+			return states.IndexOf(island);
+		}
+
+	}
 }
