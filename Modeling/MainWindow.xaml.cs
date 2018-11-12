@@ -19,8 +19,12 @@ namespace Modeling
 	{
         private const string GROUP_BOX = "TextBox";
         private const string GRID = "Grid";
+	    private const string VIEW = "ScrollView";
+	    private const string PANEL = "Panel";
+
         private Canvas[,] groupBox;
 
+	    private const double PANEL_WIDHT = 200;
         private const double IMAGE_SIZE = 10;
         private const double SIZE_ROW = 70;
         private const int HEIGHT = 10;
@@ -29,7 +33,8 @@ namespace Modeling
         private Island island;
 
         private Canvas grid;
-        private Canvas panel;
+        private ScrollViewer viewbox;
+	    private DockPanel panel;
 
 		private int step = 0;
 		private int rubbits = 0;
@@ -42,16 +47,12 @@ namespace Modeling
 		{
 			InitializeComponent();
             island = new Island(HEIGHT, WIDHT);
-            panel =  this.FindName("Panel") as Canvas;
+            panel =  this.FindName(PANEL) as DockPanel;
+		    viewbox = panel.FindName(VIEW) as ScrollViewer;
             grid = panel.FindName(GRID) as Canvas;
             GenerateRows();
         }
 
-        public bool Refresh()
-        {
-	        ++step;
-			return NextStep();
-		}
 
         public void GenerateRows()
         {
@@ -62,45 +63,54 @@ namespace Modeling
                 {
                     var cloneGroupBox = new Canvas();
                     
-
                     cloneGroupBox.Width = SIZE_ROW;
                     cloneGroupBox.Height = SIZE_ROW; 
                     cloneGroupBox.Name = $"{GROUP_BOX}{i}_{j}";
                     cloneGroupBox.Margin = new Thickness(i * SIZE_ROW, j * SIZE_ROW, 0, 0);
-                    panel.Children.Add(cloneGroupBox);
+                    grid.Children.Add(cloneGroupBox);
 					
                     groupBoxes[i, j] = cloneGroupBox;
                     
                     UpdateCell(island.Cells[i, j], cloneGroupBox);
                 }
+
+                viewbox.Width = SIZE_ROW * WIDHT;
+                this.Width = SIZE_ROW * WIDHT + PANEL_WIDHT;
             }
             groupBox = groupBoxes;
         }
 
-        private bool NextStep()
+        private void NextSteps(int count)
         {
-            island.NextBeat();
+            for (int i = 0; i != count; ++i)
+            {
+                island.NextBeat();
+                AddState(island.Clone());
+            }
 
+            step += count;
+        }
+
+	    private void UpdateField()
+	    {
 	        rubbits = 0;
 	        hunters = 0;
 	        wolfs = 0;
 
-			for (int i = 0; i != HEIGHT; ++i)
-            {
-                for (int j = 0; j != WIDHT; ++j)
-                {
-                    UpdateCell(island.Cells[i, j], groupBox[i, j]);
+            for (int i = 0; i != HEIGHT; ++i)
+	        {
+	            for (int j = 0; j != WIDHT; ++j)
+	            {
+	                UpdateCell(island.Cells[i, j], groupBox[i, j]);
 
 	                rubbits += island.Cells[i, j].GetRubbits();
-					wolfs += island.Cells[i, j].GetWolfs();
+	                wolfs += island.Cells[i, j].GetWolfs();
 	                hunters += island.Cells[i, j].GetHunters();
-				}
-            }
+	            }
+	        }
 
 	        var textBlock = panel.FindName("Statistics") as TextBlock;
-	        textBlock.Text  = $"Step : {step}{Environment.NewLine}Rubbits : {rubbits}{Environment.NewLine}Hunters : {hunters}{Environment.NewLine}Wolfs : {wolfs}{Environment.NewLine}";
-
-			return rubbits != 0 || hunters != 0;
+	        textBlock.Text = $"Step : {step}{Environment.NewLine}Rubbits : {rubbits}{Environment.NewLine}Hunters : {hunters}{Environment.NewLine}Wolfs : {wolfs}{Environment.NewLine}";
         }
 
 		private void ChangeCellColor(ICell cell, Canvas groupBox)
@@ -190,22 +200,10 @@ namespace Modeling
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-	        while (Refresh())
-	        {
-		        ProcessUITasks();
-				AddState(island.Clone());
-	        }
-		}
+            NextSteps(1);
+            UpdateField();
+        }
 
-		public static void ProcessUITasks()
-		{
-			DispatcherFrame frame = new DispatcherFrame();
-			Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new DispatcherOperationCallback(delegate (object parameter) {
-				frame.Continue = false;
-				return null;
-			}), null);
-			Dispatcher.PushFrame(frame);
-		}
 
 
 		public void AddState(Island state)

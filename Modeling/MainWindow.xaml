@@ -5,12 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Modeling"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1000">
-    <Canvas x:Name="Panel">
-        <Canvas x:Name="Grid">
-            <TextBlock/>
-        </Canvas>
-        <Button Panel.ZIndex="1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="Button_Click" Canvas.Top="1" />
-		<TextBlock Panel.ZIndex="1" x:Name="Statistics"/>
-	</Canvas>
+        Title="MainWindow">
+    <DockPanel x:Name="Panel">
+        <ScrollViewer x:Name="ScrollView" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Canvas x:Name="Grid">
+            </Canvas>
+        </ScrollViewer>
+        <StackPanel>
+            <TextBox>
+                <TextBox.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0"></TextBox>
+                            <Button Content="Start" Click="Button_Click" Grid.Column="1"/>
+                        </Grid>
+                    </ControlTemplate>
+                </TextBox.Template>
+            </TextBox>
+            <TextBlock x:Name="Statistics"/>
+        </StackPanel>
+    </DockPanel>
 </Window>
