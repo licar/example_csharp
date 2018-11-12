@@ -49,10 +49,11 @@ namespace Modeling
 
 
 	    private ICell currentCell = null;
+	    private Canvas currentCanvas = null;
 		public MainWindow()
 		{
 			InitializeComponent();
-            island = new Island(HEIGHT, WIDHT);
+            island = new Island(HEIGHT, WIDHT, false);
             panel =  this.FindName(PANEL) as DockPanel;
 		    addMenu = this.FindName(ADD_MENU) as StackPanel;
             viewbox = panel.FindName(VIEW) as ScrollViewer;
@@ -72,7 +73,7 @@ namespace Modeling
                     
                     cloneGroupBox.Width = SIZE_ROW;
                     cloneGroupBox.Height = SIZE_ROW; 
-                    cloneGroupBox.Name = $"{i}_{j}";
+                    cloneGroupBox.Name = $"cell_{i}_{j}";
                     cloneGroupBox.Margin = new Thickness(i * SIZE_ROW, j * SIZE_ROW, 0, 0);
                     grid.Children.Add(cloneGroupBox);
 					
@@ -93,7 +94,7 @@ namespace Modeling
         {
             for (int i = 0; i != count; ++i)
             {
-                island.NextBeat();
+                island.UpdateIsland();
                 AddState(island.Clone());
             }
 
@@ -117,7 +118,11 @@ namespace Modeling
 	                hunters += island.Cells[i, j].GetHunters();
 	            }
 	        }
+            UpdateStatistics();
+        }
 
+	    private void UpdateStatistics()
+	    {
 	        var textBlock = panel.FindName("Statistics") as TextBlock;
 	        textBlock.Text = $"Step : {step}{Environment.NewLine}Rubbits : {rubbits}{Environment.NewLine}Hunters : {hunters}{Environment.NewLine}Wolfs : {wolfs}{Environment.NewLine}";
         }
@@ -159,10 +164,10 @@ namespace Modeling
         private void UpdateCell(ICell cell, Canvas groupBox)
         {
             ChangeCellColor(cell, groupBox);
-            UpdateText(cell, groupBox);
+            UpdatePopulation(cell, groupBox);
         }
 
-        private void UpdateText(ICell cell, Canvas groupBox)
+        private void UpdatePopulation(ICell cell, Canvas groupBox)
         {
             if (cell.GetLocality() == Locality.Field)
             {
@@ -177,6 +182,7 @@ namespace Modeling
                     image.Background = Brushes.White;
                     groupBox.Children.Add(image);
                 }
+
 
                 for (int i = 0; i != cell.GetHunters(); ++i)
                 {
@@ -197,6 +203,9 @@ namespace Modeling
                     image.Background = Brushes.Red;
                     groupBox.Children.Add(image);
                 }
+                var text = new TextBlock();
+                text.Text = $"S:{cell.GetSun()}|R:{cell.GetRain()}|J:{cell.GetJuiciness()}";
+                groupBox.Children.Add(text);
             }
         }
 
@@ -237,32 +246,57 @@ namespace Modeling
 
 	    private void Grid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 	    {
-	        var canvas = sender as Canvas;
-	        var split = canvas.Name.Split('_');
+	        currentCanvas = sender as Canvas;
+	        var split = currentCanvas.Name.Split('_');
 
-	        var i = int.Parse(canvas.Name.Split('_')[0]); 
-	        var j = int.Parse(canvas.Name.Split('_')[1]);
+	        var i = int.Parse(currentCanvas.Name.Split('_')[1]); 
+	        var j = int.Parse(currentCanvas.Name.Split('_')[2]);
 
 	        currentCell = island.Cells[i, j];
 
             AddMenu.Visibility = Visibility.Visible;
-	        AddMenu.Margin = canvas.Margin;
+	        AddMenu.Margin = currentCanvas.Margin;
 	    }
 
 	    private void Rubbits_Button(object sender, RoutedEventArgs e)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        if (currentCell.AddOneRubbit())
+	        {
+	            ++rubbits;
+	            UpdateCell(currentCell, currentCanvas);
+	            UpdateStatistics();
+            }
+	        AddMenu.Visibility = Visibility.Hidden;
+        }
 
 
         private void Hunters_Button(object sender, RoutedEventArgs e)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        if (currentCell.AddOneHunter())
+	        {
+	            ++hunters;
+	            UpdateCell(currentCell, currentCanvas);
+	            UpdateStatistics();
+            }
+	        AddMenu.Visibility = Visibility.Hidden;
+
+        }
 
         private void Wolfs_Button(object sender, RoutedEventArgs e)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        if (currentCell.AddOneWolf())
+	        {
+	            ++wolfs;
+	            UpdateCell(currentCell, currentCanvas);
+	            UpdateStatistics();
+	        }
+	        AddMenu.Visibility = Visibility.Hidden;
+        }
+
+	    private void GenerateRandomWorld(object sender, RoutedEventArgs e)
+	    {
+	        island = new Island(HEIGHT, WIDHT, true);
+	        UpdateField();
+        }
 	}
 }

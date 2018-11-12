@@ -13,11 +13,9 @@ namespace Modeling.Modes
 		private int tempWolfs = 0;
 
 
-		public WolfsField() : base()
+		public WolfsField(bool random) : base(random)
 		{
-            MigrateWolfs(tempWolfs);
-            tempWolfs = 0;
-            wolfsAmount = GenerateRandom(MAX_WOLFS_AMOUNT + 1);
+            wolfsAmount = random ? GenerateRandom(MAX_WOLFS_AMOUNT + 1) : 0;
         }
 
 		public override void NextBeat()
@@ -93,6 +91,18 @@ namespace Modeling.Modes
             ++tempWolfs;
         }
 
+        public override bool AddOneWolf()
+        {
+            if (wolfsAmount < MAX_WOLFS_AMOUNT)
+            {
+                ++wolfsAmount;
+                return true;
+            }
+
+            return false;
+
+        }
+
         public override void Refresh()
         {
             base.Refresh();
@@ -107,5 +117,7 @@ namespace Modeling.Modes
         {
             return this.wolfsAmount;
         }
+
+
     }
 }

@@ -111,5 +111,15 @@ namespace Modeling.Modes
         {
             return Grass.Juiciness;
         }
+
+        public override int GetSun()
+        {
+            return (int)Sun.NatureState;
+        }
+
+        public override int GetRain()
+        {
+            return (int)Rain.NatureState;
+        }
     }
 }

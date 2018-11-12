@@ -13,17 +13,17 @@ namespace Modeling.Modes
 		private int tempRubbits = 0;
         protected Random random = new Random();
 
-        public RubbitsField() : base()
+        public RubbitsField(bool random) : base()
 		{
-            rubbitsAmount = GenerateRandom(MAX_RUBBISH_AMOUNT + 1);
+            rubbitsAmount = random ? GenerateRandom(MAX_RUBBISH_AMOUNT + 1) : 0;
 		}
 
 		public override void NextBeat()
 		{
-			base.NextBeat();
 			FeedRabbits();
             Breeding();
-		}
+		    base.NextBeat();
+        }
 
 		private void FeedRabbits()
 		{
@@ -63,6 +63,18 @@ namespace Modeling.Modes
         {
             ++tempRubbits;
         }
+
+	    public override bool AddOneRubbit()
+	    {
+	        if (rubbitsAmount < MAX_RUBBISH_AMOUNT)
+	        {
+	            ++rubbitsAmount;
+	            return true;
+	        }
+
+	        return false;
+	    }
+
 
         public override void Refresh()
         {

@@ -61,5 +61,21 @@ namespace Modeling.Modes
         {
             return 0;
         }
+
+        public virtual bool AddOneRubbit() {return  false;}
+
+        public virtual bool AddOneHunter() { return false; }
+
+        public virtual bool AddOneWolf() { return false; }
+
+        public virtual int GetSun()
+        {
+            return 0;
+        }
+
+        public virtual int GetRain()
+        {
+            return 0;
+        }
     }
 }

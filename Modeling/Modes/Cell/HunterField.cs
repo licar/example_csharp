@@ -10,11 +10,9 @@ namespace Modeling.Modes.Cell
         protected int huntersAmount;
         private int tempHuntersAmount = 0;
 
-        public HunterField() : base() 
+        public HunterField(bool random) : base(random) 
         {
-            MigrateHunters(huntersAmount);
-            tempHuntersAmount = 0;
-            huntersAmount = GenerateRandom(MAX_HUNTERS_AMOUNT + 1);
+            huntersAmount = random ? GenerateRandom(MAX_HUNTERS_AMOUNT + 1) : 0;
         }
 
         public override void NextBeat()
@@ -56,6 +54,17 @@ namespace Modeling.Modes.Cell
                 alive[GenerateRandom(alive.Count())].AddHunter();
             }
             
+        }
+
+        public override bool AddOneHunter()
+        {
+            if (huntersAmount < MAX_HUNTERS_AMOUNT)
+            {
+                ++huntersAmount;
+                return true;
+            }
+
+            return false;
         }
 
         public override void Refresh()

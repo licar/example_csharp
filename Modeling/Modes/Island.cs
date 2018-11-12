@@ -20,12 +20,18 @@ namespace Modeling.Modes
 
 		}
 
-		public Island(int height, int widht)
+		public Island(int height, int widht, bool randomWorld)
 		{
             Cells = new ICell[height, widht];
-            GenerateIslend();
+            GenerateIslend(randomWorld);
             FillNeighbods();
         }
+
+	    public void UpdateIsland()
+	    {
+            NextBeat();
+            Refresh();
+	    }
 
         public void NextBeat()
         {
@@ -37,27 +43,33 @@ namespace Modeling.Modes
                     
                 }
             }
-            for (int i = 0; i != Cells.GetLength(0); ++i)
-            {
-                for (int j = 0; j != Cells.GetLength(1); ++j)
-                {
-                    Cells[i, j].Refresh();
-                }
-            }
+            
         }
 
-        private void GenerateIslend()
+	    public void Refresh()
+	    {
+	        for (int i = 0; i != Cells.GetLength(0); ++i)
+	        {
+	            for (int j = 0; j != Cells.GetLength(1); ++j)
+	            {
+	                Cells[i, j].Refresh();
+	            }
+	        }
+        }
+
+
+        private void GenerateIslend(bool randomWorld)
         {
             for (int i = 0; i != Cells.GetLength(0); ++i)
             {
                 for (int j = 0; j != Cells.GetLength(1); ++j)
                 {
-                    Cells[i, j] = GenerateCell() as ICell;
+                    Cells[i, j] = GenerateCell(randomWorld) as ICell;
                 }
             }
         }
 
-        private FieldCell GenerateCell()
+        private FieldCell GenerateCell(bool randomWorld)
         {
             var max = Enum.GetValues(typeof(Locality)).Cast<int>().Max();
             var min = Enum.GetValues(typeof(Locality)).Cast<int>().Min();
@@ -69,7 +81,7 @@ namespace Modeling.Modes
 
             if (locality == Locality.Field)
             {
-                var wold = new WolfsField();
+                var wold = new WolfsField(randomWorld);
                 return wold;
             }
 

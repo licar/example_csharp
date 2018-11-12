@@ -17,5 +17,11 @@ namespace Modeling.Modes
         void SetNeighboads(IList<ICell> neighbords);
         Locality GetLocality();
         int GetJuiciness();
+        int GetSun();
+        int GetRain();
+
+        bool AddOneRubbit();
+        bool AddOneHunter();
+        bool AddOneWolf();
     }
 }

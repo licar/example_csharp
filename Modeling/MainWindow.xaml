@@ -28,6 +28,7 @@
                     </ControlTemplate>
                 </TextBox.Template>
             </TextBox>
+            <Button Content="Generate random world" Click="GenerateRandomWorld" Grid.Column="1"/>
             <TextBlock x:Name="Statistics"/>
         </StackPanel>
     </DockPanel>
