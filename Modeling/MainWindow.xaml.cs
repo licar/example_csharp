@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml;
 
@@ -46,7 +47,6 @@ namespace Modeling
 
 		private bool end = false;
 		public IList<Island> states = new List<Island>();
-
 
 	    private ICell currentCell = null;
 	    private Canvas currentCanvas = null;
@@ -167,6 +167,18 @@ namespace Modeling
             UpdatePopulation(cell, groupBox);
         }
 
+	    private Image CreateImage(string source)
+	    {
+	        var image = new Image();
+	        BitmapImage bitmap = new BitmapImage();
+	        bitmap.BeginInit();
+	        bitmap.UriSource = new Uri(source, UriKind.Relative);
+	        bitmap.EndInit();
+	        image.Stretch = Stretch.Fill;
+	        image.Source = bitmap;
+	        return image;
+	    }
+
         private void UpdatePopulation(ICell cell, Canvas groupBox)
         {
             if (cell.GetLocality() == Locality.Field)
@@ -175,14 +187,13 @@ namespace Modeling
 
                 for (int i = 0; i != cell.GetRubbits(); ++i)
                 {
-                    var image = new Canvas();
+                    var image = CreateImage("img/rabbit.png");
                     image.Margin = new Thickness(i * IMAGE_SIZE * 2 + IMAGE_SIZE, IMAGE_SIZE, 0, 0);
                     image.Height = IMAGE_SIZE;
                     image.Width = IMAGE_SIZE;
-                    image.Background = Brushes.White;
                     groupBox.Children.Add(image);
                 }
-
+;
 
                 for (int i = 0; i != cell.GetHunters(); ++i)
                 {
