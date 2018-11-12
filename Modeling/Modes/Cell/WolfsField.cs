@@ -78,7 +78,12 @@ namespace Modeling.Modes
         {
             for (var i = 0; i != count; ++i)
             {
-                neighboads[GenerateRandom(neighboads.Count())].AddWolf();
+                var alive = neighboads.Where(n => n.GetLocality() == Common.Enums.Locality.Field).ToArray();
+                if (!alive.Any())
+                {
+                    return;
+                }
+                alive[GenerateRandom(alive.Count())].AddWolf();
             }
 
         }

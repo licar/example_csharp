@@ -39,12 +39,17 @@ namespace Modeling.Modes
             Grass.Juiciness = 0;
             var migrateRabbishAmount = Math.Abs(grassesJuiciness);
 
-			for (var i = 0; i != migrateRabbishAmount; ++i)
-			{
-                neighboads[GenerateRandom(neighboads.Count())].AddRubbit();
-			}
-			
-		}
+		    for (var i = 0; i != migrateRabbishAmount; ++i)
+		    {
+		        var alive = neighboads.Where(n => n.GetLocality() == Common.Enums.Locality.Field).ToArray();
+		        if (!alive.Any())
+		        {
+		            return;
+		        }
+		        alive[GenerateRandom(alive.Count())].AddRubbit();
+		    }
+
+        }
 
         private void Breeding()
         {

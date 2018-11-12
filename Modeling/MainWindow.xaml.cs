@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -70,7 +71,9 @@ namespace Modeling
                     grid.Children.Add(cloneGroupBox);
 					
                     groupBoxes[i, j] = cloneGroupBox;
-                    
+                    cloneGroupBox.MouseRightButtonDown += new MouseButtonEventHandler(Grid_OnMouseRightButtonDown);
+
+
                     UpdateCell(island.Cells[i, j], cloneGroupBox);
                 }
 
@@ -226,5 +229,9 @@ namespace Modeling
 			return states.IndexOf(island);
 		}
 
+	    private void Grid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+	    {
+	        
+	    }
 	}
 }
