@@ -22,6 +22,7 @@ namespace Modeling
         private const string GRID = "Grid";
 	    private const string VIEW = "ScrollView";
 	    private const string PANEL = "Panel";
+	    private const string ADD_MENU = "AddMenu";
 
         private Canvas[,] groupBox;
 
@@ -36,20 +37,25 @@ namespace Modeling
         private Canvas grid;
         private ScrollViewer viewbox;
 	    private DockPanel panel;
+	    private StackPanel addMenu;
 
-		private int step = 0;
+        private int step = 0;
 		private int rubbits = 0;
 		private int hunters = 0;
 		private int wolfs = 0;
+
 		private bool end = false;
 		public IList<Island> states = new List<Island>();
 
+
+	    private ICell currentCell = null;
 		public MainWindow()
 		{
 			InitializeComponent();
             island = new Island(HEIGHT, WIDHT);
             panel =  this.FindName(PANEL) as DockPanel;
-		    viewbox = panel.FindName(VIEW) as ScrollViewer;
+		    addMenu = this.FindName(ADD_MENU) as StackPanel;
+            viewbox = panel.FindName(VIEW) as ScrollViewer;
             grid = panel.FindName(GRID) as Canvas;
             GenerateRows();
         }
@@ -66,7 +72,7 @@ namespace Modeling
                     
                     cloneGroupBox.Width = SIZE_ROW;
                     cloneGroupBox.Height = SIZE_ROW; 
-                    cloneGroupBox.Name = $"{GROUP_BOX}{i}_{j}";
+                    cloneGroupBox.Name = $"{i}_{j}";
                     cloneGroupBox.Margin = new Thickness(i * SIZE_ROW, j * SIZE_ROW, 0, 0);
                     grid.Children.Add(cloneGroupBox);
 					
@@ -231,7 +237,32 @@ namespace Modeling
 
 	    private void Grid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 	    {
-	        
+	        var canvas = sender as Canvas;
+	        var split = canvas.Name.Split('_');
+
+	        var i = int.Parse(canvas.Name.Split('_')[0]); 
+	        var j = int.Parse(canvas.Name.Split('_')[1]);
+
+	        currentCell = island.Cells[i, j];
+
+            AddMenu.Visibility = Visibility.Visible;
+	        AddMenu.Margin = canvas.Margin;
+	    }
+
+	    private void Rubbits_Button(object sender, RoutedEventArgs e)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+
+        private void Hunters_Button(object sender, RoutedEventArgs e)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+        private void Wolfs_Button(object sender, RoutedEventArgs e)
+	    {
+	        throw new NotImplementedException();
 	    }
 	}
 }

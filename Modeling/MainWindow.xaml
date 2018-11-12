@@ -9,6 +9,11 @@
     <DockPanel x:Name="Panel">
         <ScrollViewer x:Name="ScrollView" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Canvas x:Name="Grid">
+                <StackPanel x:Name="AddMenu" Visibility="Hidden" Width="100" Height="60" ZIndex="1">
+                    <Button Content="Add rabbit" Click="Rubbits_Button"/>
+                    <Button Content="Add hunter" Click="Hunters_Button"/>
+                    <Button Content="Add wolf" Click="Wolfs_Button"/>
+                </StackPanel>
             </Canvas>
         </ScrollViewer>
         <StackPanel>
