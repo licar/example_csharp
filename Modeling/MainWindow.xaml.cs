@@ -187,7 +187,7 @@ namespace Modeling
 
                 for (int i = 0; i != cell.GetRubbits(); ++i)
                 {
-                    var image = CreateImage("img/rabbit.png");
+                    var image = CreateImage("Resources/rabbit.png");
                     image.Margin = new Thickness(i * IMAGE_SIZE * 2 + IMAGE_SIZE, IMAGE_SIZE, 0, 0);
                     image.Height = IMAGE_SIZE;
                     image.Width = IMAGE_SIZE;
@@ -214,9 +214,9 @@ namespace Modeling
                     image.Background = Brushes.Red;
                     groupBox.Children.Add(image);
                 }
-                var text = new TextBlock();
-                text.Text = $"S:{cell.GetSun()}|R:{cell.GetRain()}|J:{cell.GetJuiciness()}";
-                groupBox.Children.Add(text);
+                //var text = new TextBlock();
+                //text.Text = $"S:{cell.GetSun()}|R:{cell.GetRain()}|J:{cell.GetJuiciness()}";
+                //groupBox.Children.Add(text);
             }
         }
 
