@@ -87,15 +87,17 @@ namespace Modeling
                     var border = new Border();
                     border.BorderThickness = new Thickness(1);
                     border.BorderBrush = Brushes.Black;
+                    border.Width = SIZE_ROW;
+                    border.Height = SIZE_ROW;
+                    border.Margin = new Thickness(i * SIZE_ROW, j * SIZE_ROW, 0, 0);
 
                     var cloneGroupBox = new Canvas();
-                    
                     cloneGroupBox.Width = SIZE_ROW;
                     cloneGroupBox.Height = SIZE_ROW; 
                     cloneGroupBox.Name = $"cell_{i}_{j}";
-                    cloneGroupBox.Margin = new Thickness(i * SIZE_ROW, j * SIZE_ROW, 0, 0);
-
+ 
                     grid.Children.Add(border);
+
                     border.Child = cloneGroupBox;
 
                     groupBoxes[i, j] = cloneGroupBox;
