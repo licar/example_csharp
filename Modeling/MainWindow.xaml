@@ -8,28 +8,23 @@
         Title="MainWindow">
     <DockPanel x:Name="Panel">
         <ScrollViewer x:Name="ScrollView" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Canvas x:Name="Grid">
-                <StackPanel x:Name="AddMenu" Visibility="Hidden" Width="100" Height="60" ZIndex="1">
+            <Canvas>
+                <StackPanel x:Name="AddMenu" Visibility="Hidden" Width="100" Height="80" ZIndex="1">
                     <Button Content="Add rabbit" Click="Rubbits_Button"/>
                     <Button Content="Add hunter" Click="Hunters_Button"/>
                     <Button Content="Add wolf" Click="Wolfs_Button"/>
+                    <Button Content="Close" Click="Close_Panel"/>
                 </StackPanel>
+                <Canvas  x:Name="Grid"></Canvas>
             </Canvas>
         </ScrollViewer>
         <StackPanel>
-            <TextBox>
-                <TextBox.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0"></TextBox>
-                            <Button Content="Start" Click="Button_Click" Grid.Column="1"/>
-                        </Grid>
-                    </ControlTemplate>
-                </TextBox.Template>
-            </TextBox>
             <Button Content="Generate random world" Click="GenerateRandomWorld" Grid.Column="1"/>
-            <TextBlock x:Name="Statistics"/>
+            <TextBox x:Name="Amount" PreviewTextInput="UIElement_OnPreviewTextInput" Text="10" Grid.Column="0"></TextBox>
+            <Button Content="Next" Click="Button_Click" Grid.Column="1"/>
+            <TextBox x:Name="Go" PreviewTextInput="UIElement_OnPreviewTextInput" Text="10" Grid.Column="0"></TextBox>
+            <Button Content="Go" Click="Button_Go" Grid.Column="1"/>
+            <TextBlock  x:Name="Statistics"/>
         </StackPanel>
     </DockPanel>
 </Window>

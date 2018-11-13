@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Modeling.Modes
 {
@@ -40,7 +41,6 @@ namespace Modeling.Modes
                 for (int j = 0; j != Cells.GetLength(1); ++j)
                 {
                     Cells[i, j].NextBeat();
-                    
                 }
             }
             
