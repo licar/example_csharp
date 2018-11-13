@@ -83,18 +83,24 @@ namespace Modeling
             {
                 for (int j = 0; j != WIDHT; ++j)
                 {
+
+                    var border = new Border();
+                    border.BorderThickness = new Thickness(1);
+                    border.BorderBrush = Brushes.Black;
+
                     var cloneGroupBox = new Canvas();
                     
                     cloneGroupBox.Width = SIZE_ROW;
                     cloneGroupBox.Height = SIZE_ROW; 
                     cloneGroupBox.Name = $"cell_{i}_{j}";
                     cloneGroupBox.Margin = new Thickness(i * SIZE_ROW, j * SIZE_ROW, 0, 0);
-                    grid.Children.Add(cloneGroupBox);
-					
+
+                    grid.Children.Add(border);
+                    border.Child = cloneGroupBox;
+
                     groupBoxes[i, j] = cloneGroupBox;
                     cloneGroupBox.MouseRightButtonDown += new MouseButtonEventHandler(Grid_OnMouseRightButtonDown);
-
-
+                    
                     UpdateCell(island.Cells[i, j], cloneGroupBox);
                 }
 
@@ -103,6 +109,67 @@ namespace Modeling
             }
             groupBox = groupBoxes;
         }
+
+
+	    private void RainColor(ICell cell, Canvas groupBox)
+	    {
+
+	        switch (cell.GetSun())
+	        {
+	            case 0:
+	                groupBox.Background = conv.ConvertFromString("#e3f7f7") as SolidColorBrush;
+	                break;
+	            case 1:
+	                groupBox.Background = conv.ConvertFromString("#b8f2f2") as SolidColorBrush;
+	                break;
+	            case 2:
+	                groupBox.Background = conv.ConvertFromString("#8eeded") as SolidColorBrush;
+	                break;
+	            case 3:
+	                groupBox.Background = conv.ConvertFromString("#3e9b9b") as SolidColorBrush;
+	                break;
+            }
+	    }
+
+	    private void SunColor(ICell cell, Canvas groupBox)
+	    {
+
+	        switch (cell.GetSun())
+	        {
+	            case 0:
+	                groupBox.Background = conv.ConvertFromString("#fcfcf9") as SolidColorBrush;
+	                break;
+	            case 1:
+	                groupBox.Background = conv.ConvertFromString("#fcfca4") as SolidColorBrush;
+	                break;
+	            case 2:
+	                groupBox.Background = conv.ConvertFromString("#ffff84") as SolidColorBrush;
+	                break;
+	            case 3:
+	                groupBox.Background = conv.ConvertFromString("#ffff3d") as SolidColorBrush;
+	                break;
+	        }
+	    }
+
+        private Canvas CreateSun(ICell cell)
+	    {
+	        var cloneGroupBox = new Canvas();
+	        cloneGroupBox.Width = SIZE_ROW / 2;
+	        cloneGroupBox.Height = SIZE_ROW / 2;
+	        cloneGroupBox.Margin = new Thickness(0, 0, 0, 0);
+	        SunColor(cell, cloneGroupBox);
+	        return cloneGroupBox;
+	    }
+
+	    private Canvas CreateRain(ICell cell)
+	    {
+	        var cloneGroupBox = new Canvas();
+	        cloneGroupBox.Width = SIZE_ROW / 2;
+	        cloneGroupBox.Height = SIZE_ROW / 2;
+	        cloneGroupBox.Margin = new Thickness(SIZE_ROW / 2, 0, 0, 0);
+	        RainColor(cell, cloneGroupBox);
+            return cloneGroupBox;
+	    }
 
         private void NextSteps(int count)
         {
@@ -124,7 +191,7 @@ namespace Modeling
 	        wolfs = 0;
 
             for (int i = 0; i != HEIGHT; ++i)
-	        {
+            {
 	            for (int j = 0; j != WIDHT; ++j)
 	            {
 	                UpdateCell(islandState.Cells[i, j], groupBox[i, j]);
@@ -164,10 +231,9 @@ namespace Modeling
                     case 4:
                         groupBox.Background = conv.ConvertFromString("#6CE479") as SolidColorBrush;
                         break;
-
                 }
-                
-            }else if (cell.GetLocality() == Locality.Hill)
+            }
+            else if (cell.GetLocality() == Locality.Hill)
             {
                 groupBox.Background = Brushes.Gray;
             }
@@ -201,13 +267,19 @@ namespace Modeling
             {
                 groupBox.Children.Clear();
 
+                var sun = CreateSun(cell);
+                groupBox.Children.Add(sun);
+
+                var rain = CreateRain(cell);
+                groupBox.Children.Add(rain);
+
                 for (int i = 0; i != cell.GetRubbits(); ++i)
                 {
                     var image = new Canvas();
                     image.Margin = new Thickness(i * IMAGE_SIZE * 2 + IMAGE_SIZE, IMAGE_SIZE, 0, 0);
                     image.Height = IMAGE_SIZE;
                     image.Width = IMAGE_SIZE;
-                    image.Background = Brushes.White;
+                    image.Background = Brushes.Green;
                     groupBox.Children.Add(image);
                 }
 ;
@@ -231,9 +303,10 @@ namespace Modeling
                     image.Background = Brushes.Red;
                     groupBox.Children.Add(image);
                 }
-                var text = new TextBlock();
-                text.Text = $"S:{cell.GetSun()}|R:{cell.GetRain()}|J:{cell.GetJuiciness()}";
-                groupBox.Children.Add(text);
+
+                //var text = new TextBlock();
+                //text.Text = $"S:{cell.GetSun()}|R:{cell.GetRain()}|J:{cell.GetJuiciness()}";
+                //groupBox.Children.Add(text);
             }
         }
 
