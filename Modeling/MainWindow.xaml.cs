@@ -368,7 +368,11 @@ namespace Modeling
 	        currentCell = island.Cells[i, j];
 
             AddMenu.Visibility = Visibility.Visible;
-	        AddMenu.Margin = currentCanvas.Margin;
+	        var border = currentCanvas.Parent as Border;
+	        var magin = border.Margin;
+	        magin.Left += SIZE_ROW / 2;
+	        magin.Top += SIZE_ROW / 2;
+            AddMenu.Margin = magin;
 	    }
 
 	    private void Rubbits_Button(object sender, RoutedEventArgs e)
