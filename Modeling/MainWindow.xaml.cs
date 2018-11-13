@@ -333,7 +333,12 @@ namespace Modeling
 			states.Add(state);
 		}
 
-		public Island GetState(int i)
+	    public void UpdateState(Island state)
+	    {
+	        states[step] = state;
+	    }
+
+        public Island GetState(int i)
 		{
 			if (i < 0 || i > states.Count)
 			{
@@ -382,6 +387,7 @@ namespace Modeling
 	            ++rubbits;
 	            UpdateCell(currentCell, currentCanvas);
 	            UpdateStatistics();
+                UpdateState(island.Clone());
             }
 	        AddMenu.Visibility = Visibility.Hidden;
         }
@@ -394,6 +400,7 @@ namespace Modeling
 	            ++hunters;
 	            UpdateCell(currentCell, currentCanvas);
 	            UpdateStatistics();
+	            UpdateState(island.Clone());
             }
 	        AddMenu.Visibility = Visibility.Hidden;
 
@@ -406,7 +413,8 @@ namespace Modeling
 	            ++wolfs;
 	            UpdateCell(currentCell, currentCanvas);
 	            UpdateStatistics();
-	        }
+	            UpdateState(island.Clone());
+            }
 	        AddMenu.Visibility = Visibility.Hidden;
         }
 
