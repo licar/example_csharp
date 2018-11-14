@@ -33,8 +33,8 @@ namespace Modeling
 	    private const double PANEL_WIDHT = 200;
         private const double IMAGE_SIZE = 10;
         private const double SIZE_ROW = 70;
-        private const int HEIGHT = 20;
-        private const int WIDHT = 20;
+        private const int HEIGHT = 10;
+        private const int WIDHT = 10;
         private BrushConverter conv = new BrushConverter();
         private Island island;
 
@@ -321,6 +321,7 @@ namespace Modeling
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            ClosePanel();
             if (int.TryParse(count.Text, out var amount))
             {
                 NextSteps(amount);
@@ -420,6 +421,7 @@ namespace Modeling
 
 	    private void GenerateRandomWorld(object sender, RoutedEventArgs e)
 	    {
+	        ClosePanel();
             grid.Children.Clear();
 	        states.Clear();
 	        island = new Island(HEIGHT, WIDHT, true);
@@ -442,12 +444,19 @@ namespace Modeling
 
 	    private void Close_Panel(object sender, RoutedEventArgs e)
 	    {
+	        ClosePanel();
+        }
+
+	    private void ClosePanel()
+	    {
 	        AddMenu.Visibility = Visibility.Hidden;
         }
 
 	    private void Button_Go(object sender, RoutedEventArgs e)
 	    {
-	        if (int.TryParse(go.Text, out var amount))
+	        ClosePanel();
+
+            if (int.TryParse(go.Text, out var amount))
 	        {
 	            if (step >= amount)
 	            {
@@ -458,7 +467,8 @@ namespace Modeling
 
 	    private void  Button_Next(object sender, RoutedEventArgs e)
 	    {
-	        var st = GetState(currentStep + 1);
+	        ClosePanel();
+            var st = GetState(currentStep + 1);
 	        if (st != null)
 	        {
 	            UpdateField(st);
@@ -467,7 +477,8 @@ namespace Modeling
 
 	    private void Button_Back(object sender, RoutedEventArgs e)
 	    {
-	        var st = GetState(currentStep - 1);
+	        ClosePanel();
+            var st = GetState(currentStep - 1);
 	        if (st != null)
 	        {
 	            UpdateField(st);
