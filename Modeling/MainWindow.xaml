@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Modeling"
         mc:Ignorable="d"
-        Title="MainWindow">
+        Title="MainWindow"
+        ResizeMode="NoResize">
     <DockPanel x:Name="Panel">
         <ScrollViewer x:Name="ScrollView" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Canvas>
@@ -20,10 +21,18 @@
         </ScrollViewer>
         <StackPanel>
             <Button Content="Generate random world" Click="GenerateRandomWorld" Grid.Column="1"/>
-            <TextBox x:Name="Amount" PreviewTextInput="UIElement_OnPreviewTextInput" Text="10" Grid.Column="0"></TextBox>
-            <Button Content="Next" Click="Button_Click" Grid.Column="1"/>
-            <TextBox x:Name="Go" PreviewTextInput="UIElement_OnPreviewTextInput" Text="10" Grid.Column="0"></TextBox>
-            <Button Content="Go" Click="Button_Go" Grid.Column="1"/>
+            <Grid>
+                <TextBox HorizontalAlignment="Left" Width="100" x:Name="Amount" PreviewTextInput="UIElement_OnPreviewTextInput" Text="10" Grid.Column="0"></TextBox>
+                <Button HorizontalAlignment="Right" Content="Calculate" Width="100" Click="Button_Click" Grid.Column="1"/>
+            </Grid>
+            <Grid>
+                <TextBox HorizontalAlignment="Left" Width="100" x:Name="Go" PreviewTextInput="UIElement_OnPreviewTextInput" Text="10" Grid.Column="0"></TextBox>
+                <Button  HorizontalAlignment="Right" Content="Go" Width="100" Click="Button_Go" Grid.Column="1"/>
+            </Grid>
+            <Grid>
+                <Button HorizontalAlignment="Left" Content="Back" Click="Button_Back" Width="100" Grid.Column="0"/>
+                <Button  HorizontalAlignment="Right" Content="Next" Width="100"  Click=" Button_Next" Grid.Column="1"/>
+            </Grid>
             <TextBlock  x:Name="Statistics"/>
         </StackPanel>
     </DockPanel>

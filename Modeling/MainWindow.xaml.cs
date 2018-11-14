@@ -33,8 +33,8 @@ namespace Modeling
 	    private const double PANEL_WIDHT = 200;
         private const double IMAGE_SIZE = 10;
         private const double SIZE_ROW = 70;
-        private const int HEIGHT = 10;
-        private const int WIDHT = 10;
+        private const int HEIGHT = 3;
+        private const int WIDHT = 3;
         private BrushConverter conv = new BrushConverter();
         private Island island;
 
@@ -340,7 +340,7 @@ namespace Modeling
 
         public Island GetState(int i)
 		{
-			if (i < 0 || i > states.Count)
+			if (i < 0 || i > states.Count - 1)
 			{
 				return null;
 			}
@@ -454,6 +454,25 @@ namespace Modeling
 	                UpdateField(GetState(amount));
 	            }
 	        }
+        }
+
+	    private void  Button_Next(object sender, RoutedEventArgs e)
+	    {
+	        var st = GetState(currentStep + 1);
+	        if (st != null)
+	        {
+	            UpdateField(st);
+	        }
+        }
+
+	    private void Button_Back(object sender, RoutedEventArgs e)
+	    {
+	        var st = GetState(currentStep - 1);
+	        if (st != null)
+	        {
+	            UpdateField(st);
+	        }
+            
         }
 	}
 }

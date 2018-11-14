@@ -39,16 +39,15 @@ namespace Modeling.Modes
             {
                 --huntersAmount;
                 MigrateHunters(huntersAmount);
+                huntersAmount = 0;
                 return;
             }
 
             if (wolfsAmount < huntersAmount && wolfsAmount > 0)
             {
                 --wolfsAmount;
-                for (var i = 0; i != wolfsAmount; ++i)
-                {
-                    MigrateWolfs(wolfsAmount);
-                }
+                MigrateWolfs(wolfsAmount);
+                wolfsAmount = 0;
                 return;
             }
 
@@ -66,8 +65,6 @@ namespace Modeling.Modes
                 var migrateWolfs = Math.Abs(tmpRubbitsAmount) / 2;
                 wolfsAmount = wolfsAmount - migrateWolfs;
                 MigrateWolfs(migrateWolfs);
-
-
                 return;
             }
         }
