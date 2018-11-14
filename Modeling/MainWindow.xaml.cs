@@ -33,8 +33,8 @@ namespace Modeling
 	    private const double PANEL_WIDHT = 200;
         private const double IMAGE_SIZE = 10;
         private const double SIZE_ROW = 70;
-        private const int HEIGHT = 3;
-        private const int WIDHT = 3;
+        private const int HEIGHT = 20;
+        private const int WIDHT = 20;
         private BrushConverter conv = new BrushConverter();
         private Island island;
 
