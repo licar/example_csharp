@@ -15,9 +15,12 @@ namespace Modeling.Modes.Cell
             huntersAmount = random ? GenerateRandom(MAX_HUNTERS_AMOUNT + 1) : 0;
         }
 
-        public override void NextBeat()
+        public override void NextBeat(bool hunter = true)
         {
-            Hunt();
+            if (hunter)
+            {
+                Hunt();
+            }
             base.NextBeat();
         }
 
@@ -37,7 +40,7 @@ namespace Modeling.Modes.Cell
 
             var migrateHunters = Math.Abs(huntersAmount - rubbitsAmount);
             rubbitsAmount = 0;
-            huntersAmount = 0;
+            huntersAmount = huntersAmount - migrateHunters;
 
             MigrateHunters(migrateHunters);
         }

@@ -18,13 +18,13 @@ namespace Modeling.Modes
             wolfsAmount = random ? GenerateRandom(MAX_WOLFS_AMOUNT + 1) : 0;
         }
 
-		public override void NextBeat()
+		public override void NextBeat(bool hunter = true)
 		{
-            Eat();
-            base.NextBeat();
+            hunter = Eat();
+            base.NextBeat(hunter);
         }
 
-        private void Eat()
+        private bool Eat()
         {
             if (wolfsAmount == huntersAmount && huntersAmount != 0)
             {
@@ -32,7 +32,7 @@ namespace Modeling.Modes
                 MigrateWolfs(wolfsAmount);
                 wolfsAmount = 0;
                 huntersAmount = 0;
-                return;
+                return false;
             }
 
             if (wolfsAmount > huntersAmount && huntersAmount > 0)
@@ -40,7 +40,7 @@ namespace Modeling.Modes
                 --huntersAmount;
                 MigrateHunters(huntersAmount);
                 huntersAmount = 0;
-                return;
+                return false;
             }
 
             if (wolfsAmount < huntersAmount && wolfsAmount > 0)
@@ -48,25 +48,22 @@ namespace Modeling.Modes
                 --wolfsAmount;
                 MigrateWolfs(wolfsAmount);
                 wolfsAmount = 0;
-                return;
+                return false;
             }
 
             if (wolfsAmount > 0 && rubbitsAmount > 0)
             {
                 var tmpRubbitsAmount = rubbitsAmount - wolfsAmount * 2;
-                
+
+                rubbitsAmount = 0;
                 if (tmpRubbitsAmount > 0)
                 {
-                    rubbitsAmount = tmpRubbitsAmount;
-                    return;
+                    MigrateRubbit(tmpRubbitsAmount);
                 }
-                rubbitsAmount = 0;
-
-                var migrateWolfs = Math.Abs(tmpRubbitsAmount) / 2;
-                wolfsAmount = wolfsAmount - migrateWolfs;
-                MigrateWolfs(migrateWolfs);
-                return;
+                return true;
             }
+
+            return true;
         }
 
         private void MigrateWolfs(int count)

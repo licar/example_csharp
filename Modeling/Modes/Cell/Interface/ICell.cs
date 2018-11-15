@@ -7,7 +7,7 @@ namespace Modeling.Modes
     {
         void AddRubbit();
         void Refresh();
-        void NextBeat();
+        void NextBeat(bool hunter = true);
         void AddHunter();
         void AddWolf();
         int GetWolfs();

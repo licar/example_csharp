@@ -17,7 +17,7 @@ namespace Modeling.Modes
             neighboads = new List<ICell>();
         }
 
-        public virtual void NextBeat(){}
+        public virtual void NextBeat(bool hunter = true){}
 
         public virtual void AddRubbit(){}
 

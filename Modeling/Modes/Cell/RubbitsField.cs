@@ -18,7 +18,7 @@ namespace Modeling.Modes
             rubbitsAmount = random ? GenerateRandom(MAX_RUBBISH_AMOUNT + 1) : 0;
 		}
 
-		public override void NextBeat()
+		public override void NextBeat(bool hunter = true)
 		{
 			FeedRabbits();
             Breeding();
@@ -38,17 +38,20 @@ namespace Modeling.Modes
 			rubbitsAmount = Grass.Juiciness;
             Grass.Juiciness = 0;
             var migrateRabbishAmount = Math.Abs(grassesJuiciness);
+            MigrateRubbit(migrateRabbishAmount);
+        }
 
-		    for (var i = 0; i != migrateRabbishAmount; ++i)
-		    {
-		        var alive = neighboads.Where(n => n.GetLocality() == Common.Enums.Locality.Field).ToArray();
-		        if (!alive.Any())
-		        {
-		            return;
-		        }
-		        alive[GenerateRandom(alive.Count())].AddRubbit();
-		    }
-
+	    public void MigrateRubbit(int migrateRabbishAmount)
+	    {
+	        for (var i = 0; i != migrateRabbishAmount; ++i)
+	        {
+	            var alive = neighboads.Where(n => n.GetLocality() == Common.Enums.Locality.Field).ToArray();
+	            if (!alive.Any())
+	            {
+	                return;
+	            }
+	            alive[GenerateRandom(alive.Count())].AddRubbit();
+	        }
         }
 
         private void Breeding()
@@ -91,7 +94,7 @@ namespace Modeling.Modes
 
         protected int GenerateRandom(int max)
         {
-            //Thread.Sleep(1);
+            Thread.Sleep(1);
             return random.Next(max);
         }
     }

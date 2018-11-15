@@ -13,7 +13,7 @@ namespace Modeling.Modes
 
 		protected Field() : base(Locality.Field){}
 
-		public override void NextBeat()
+		public override void NextBeat(bool hunter = true)
 		{
 			Sun.RefreshState();
 			Rain.RefreshState();
